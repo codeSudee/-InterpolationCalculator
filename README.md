@@ -1,46 +1,52 @@
-# Astro Starter Kit: Basics
+# Interpolation Calculator
 
-```sh
-npm create astro@latest -- --template basics
-```
+A free, browser-based interpolation calculator. Enter known data points and instantly get step-by-step results for linear, logarithmic, and double (bilinear) interpolation — all processed client-side, with no data leaving your browser.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Live site:** [interpcalc.com](https://interpcalc.com/)
 
-## 🚀 Project Structure
+## Features
 
-Inside of your Astro project, you'll see the following folders and files:
+- **Linear interpolation** — straight-line estimate between two known points
+- **Logarithmic interpolation** — for data that varies linearly with ln(x), e.g. pH, decibels, Richter magnitude
+- **Double (bilinear) interpolation** — interpolates across a 2D grid using four corner values (e.g. steam tables)
+- Full step-by-step working shown for every result, not just a final number
+- Automatically flags results that fall outside the known data range as extrapolated
+- Runs entirely in the browser — no sign-up, no server round-trip
+- Multi-language support (English, Spanish, French, German, Portuguese, Italian, Japanese, Korean)
+- SEO-optimized static pages (About, Privacy Policy, Terms, Contact, FAQ)
+
+## Tech Stack
+
+- [Astro](https://astro.build) — static site generation
+- [Tailwind CSS v4](https://tailwindcss.com) — utility-first styling
+- TypeScript for the interpolation engine
+- [Cloudflare Workers](https://workers.cloudflare.com/) — deployment via Wrangler
+
+## Project Structure
 
 ```text
 /
-├── public/
-│   └── favicon.svg
+├── public/                    # favicons, robots.txt, static assets
 ├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+│   ├── components/            # HomePage, InterpolationCalculator, Field, LegalPage, ErrorPage
+│   ├── i18n/                  # dictionary, language list, per-locale translations
+│   ├── layouts/                # base page layout
+│   ├── lib/
+│   │   └── interpolation.ts   # linear, logarithmic, and bilinear interpolation logic
+│   ├── pages/                 # index, about, contact, privacy, terms, 404/500
+│   │   └── {de,es,fr,it,ja,ko,pt}/  # localized routes
+│   └── styles/
+└── wrangler.jsonc              # Cloudflare deployment config
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
-
-## 🧞 Commands
+## Commands
 
 All commands are run from the root of the project, from a terminal:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+| Command             | Action                                      |
+| :------------------- | :------------------------------------------ |
+| `npm install`         | Installs dependencies                       |
+| `npm run dev`         | Starts local dev server at `localhost:4321` |
+| `npm run build`       | Build production site to `./dist/`          |
+| `npm run preview`     | Preview the build locally                   |
+| `npm run deploy`      | Build and deploy to Cloudflare Workers       |
