@@ -1,0 +1,17 @@
+---
+import ErrorPage from "../components/ErrorPage.astro";
+import { getDictionary } from "../i18n/utils";
+import { locales, defaultLocale, type Locale } from "../i18n/languages";
+
+// Astro only recognizes a single top-level 404.astro as the special not-found
+// page (it does not serve locale-prefixed copies automatically), so detect the
+// locale from the request path here to localize the message.
+const segment = Astro.url.pathname.split("/").filter(Boolean)[0];
+const locale: Locale = (locales as readonly string[]).includes(segment ?? "")
+	? (segment as Locale)
+	: defaultLocale;
+
+const dict = getDictionary(locale);
+---
+
+<ErrorPage locale={locale} content={dict.errorPage.notFound} />

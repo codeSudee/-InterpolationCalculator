@@ -1,0 +1,52 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getDictionary, localizedPath } from "../i18n/utils";
+import type { Locale } from "../i18n/languages";
+
+interface ErrorContent {
+	metaTitle: string;
+	metaDescription: string;
+	code: string;
+	heading: string;
+	body: string;
+}
+
+interface Props {
+	locale: Locale;
+	content: ErrorContent;
+}
+
+const { locale, content } = Astro.props;
+const dict = getDictionary(locale);
+---
+
+<Layout locale={locale} title={content.metaTitle} description={content.metaDescription}>
+	<section class="container-page py-20 sm:py-28">
+		<div class="mx-auto max-w-xl text-center">
+			<p class="mono-eyebrow text-mute" aria-hidden="true">{content.code}</p>
+
+			<h1 class="mt-4 text-3xl font-semibold tracking-tight text-ink text-balance sm:text-4xl" style="letter-spacing: var(--tracking-heading);">
+				{content.heading}
+			</h1>
+
+			<p class="mt-4 text-base leading-relaxed text-body">
+				{content.body}
+			</p>
+
+			<div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+				<a
+					href={localizedPath(locale, "")}
+					class="interactive rounded-md bg-ink px-4 py-2.5 text-sm font-medium text-ink-contrast shadow-sm hover:bg-ink/90"
+				>
+					{dict.errorPage.backToHome}
+				</a>
+				<a
+					href={localizedPath(locale, "contact")}
+					class="interactive rounded-md border border-hairline px-4 py-2.5 text-sm font-medium text-body hover:bg-hairline-soft hover:text-ink"
+				>
+					{dict.errorPage.contactSupport}
+				</a>
+			</div>
+		</div>
+	</section>
+</Layout>

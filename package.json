@@ -1,5 +1,5 @@
 {
-  "name": "interpolationcalculatoronline.com",
+  "name": "interpcalc.com",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -9,12 +9,21 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
-    "astro": "^7.3.1"
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.3.1",
+    "tailwindcss": "^4.3.3"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.129.0"
   }
 }

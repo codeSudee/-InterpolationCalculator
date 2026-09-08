@@ -1,0 +1,27 @@
+---
+interface Props {
+	id: string;
+	label: string;
+	placeholder?: string;
+	highlight?: boolean;
+}
+
+const { id, label, placeholder = "", highlight = false } = Astro.props;
+---
+
+<label for={id} class="block">
+	<span class="mb-1.5 block text-xs font-medium text-body">{label}</span>
+	<input
+		type="number"
+		inputmode="decimal"
+		step="any"
+		id={id}
+		name={id}
+		placeholder={placeholder}
+		autocomplete="off"
+		class:list={[
+			"interactive w-full min-w-0 rounded-md border bg-canvas-elevated px-3.5 py-2.5 text-sm text-ink placeholder:text-faint focus:outline-none focus-visible:ring-2 focus-visible:ring-link-soft focus-visible:border-link",
+			highlight ? "border-ink/20" : "border-hairline hover:border-mute/50",
+		]}
+	/>
+</label>

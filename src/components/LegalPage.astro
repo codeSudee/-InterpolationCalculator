@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getDictionary, localizedPath } from "../i18n/utils";
+import type { Locale } from "../i18n/languages";
+
+interface LegalContent {
+	metaTitle: string;
+	metaDescription: string;
+	heading: string;
+	intro: string;
+	sections: Array<{ heading: string; body: string[] }>;
+	emailLabel?: string;
+	email?: string;
+}
+
+interface Props {
+	locale: Locale;
+	currentPath: string;
+	content: LegalContent;
+}
+
+const { locale, currentPath, content } = Astro.props;
+const dict = getDictionary(locale);
+---
+
+<Layout locale={locale} title={content.metaTitle} description={content.metaDescription} currentPath={currentPath}>
+	<section class="container-page py-14 sm:py-20">
+		<div class="mx-auto max-w-2xl">
+			<a
+				href={localizedPath(locale, "")}
+				class="mono-eyebrow interactive text-mute hover:text-ink"
+			>
+				&larr; {dict.legal.backToHome}
+			</a>
+
+			<h1 class="mt-6 text-3xl font-semibold tracking-tight text-ink text-balance sm:text-4xl" style="letter-spacing: var(--tracking-heading);">
+				{content.heading}
+			</h1>
+
+			<p class="mt-4 text-base leading-relaxed text-body">
+				{content.intro}
+			</p>
+
+			{content.email ? (
+				<p class="mt-4 text-base leading-relaxed text-body">
+					{content.emailLabel}{" "}
+					<a href={`mailto:${content.email}`} class="interactive text-link hover:text-link-deep">
+						{content.email}
+					</a>
+				</p>
+			) : null}
+
+			<div class="mt-11 space-y-9">
+				{content.sections.map((section) => (
+					<div>
+						<h2 class="text-lg font-semibold tracking-tight text-ink sm:text-xl">{section.heading}</h2>
+						{section.body.map((paragraph) => (
+							<p class="mt-2.5 text-sm leading-relaxed text-body sm:text-base">{paragraph}</p>
+						))}
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+</Layout>

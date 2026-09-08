@@ -1,0 +1,18 @@
+---
+// NOTE: This site currently builds with Astro's static `output` (no SSR
+// adapter configured in astro.config.mjs). Per Astro's docs, a custom
+// 500.astro is only served for pages rendered on demand — it has no effect
+// on a fully static build. This file is included so the page is ready to go
+// if an adapter (Node/Vercel/Netlify/Cloudflare, etc.) is added later; until
+// then, 500 errors will show your host's default error page.
+import ErrorPage from "../components/ErrorPage.astro";
+import { getDictionary } from "../i18n/utils";
+
+interface Props {
+	error?: unknown;
+}
+
+const dict = getDictionary("en");
+---
+
+<ErrorPage locale="en" content={dict.errorPage.serverError} />

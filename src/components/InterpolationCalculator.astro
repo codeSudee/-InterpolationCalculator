@@ -1,0 +1,331 @@
+---
+// Interactive interpolation calculator with three modes: linear, logarithmic, bilinear.
+// All computation runs client-side via a module script that imports the shared lib.
+// Fully localized: all labels, intros, and step/error messages come from `dict`.
+import Field from "./Field.astro";
+import type { Dictionary } from "../i18n/dictionary";
+
+interface Props {
+	dict: Dictionary;
+}
+
+const { dict } = Astro.props;
+const c = dict.calculator;
+---
+
+<section id="calculator" class="container-page">
+	<div class="card-surface rounded-lg shadow-md">
+		<!-- Mode tabs -->
+		<div class="flex gap-1 overflow-x-auto border-b border-hairline p-2" role="tablist" aria-label={c.tablistLabel}>
+			<button
+				type="button"
+				role="tab"
+				aria-selected="true"
+				aria-controls="panel-linear"
+				id="tab-linear"
+				data-mode="linear"
+				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium"
+			>
+				{c.tabLinear}
+			</button>
+			<button
+				type="button"
+				role="tab"
+				aria-selected="false"
+				aria-controls="panel-log"
+				id="tab-log"
+				data-mode="log"
+				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium"
+			>
+				{c.tabLog}
+			</button>
+			<button
+				type="button"
+				role="tab"
+				aria-selected="false"
+				aria-controls="panel-bilinear"
+				id="tab-bilinear"
+				data-mode="bilinear"
+				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium"
+			>
+				{c.tabBilinear}
+			</button>
+		</div>
+
+		<div class="grid gap-0 p-5 sm:p-7 lg:grid-cols-2 lg:gap-10">
+			<!-- Inputs -->
+			<div class="min-w-0">
+				<!-- Linear panel -->
+				<form id="panel-linear" role="tabpanel" aria-labelledby="tab-linear" class="calc-panel space-y-4">
+					<p class="text-sm leading-relaxed text-body">{c.linearIntro}</p>
+					<div class="grid grid-cols-2 gap-3.5">
+						<Field id="lin-x1" label={c.labelX1} placeholder="200" />
+						<Field id="lin-y1" label={c.labelY1} placeholder="15" />
+						<Field id="lin-x2" label={c.labelX2} placeholder="300" />
+						<Field id="lin-y2" label={c.labelY2} placeholder="20" />
+					</div>
+					<Field id="lin-x" label={c.labelXTarget} placeholder="250" highlight />
+					<p id="lin-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
+				</form>
+
+				<!-- Log panel -->
+				<form id="panel-log" role="tabpanel" aria-labelledby="tab-log" class="calc-panel hidden space-y-4">
+					<p class="text-sm leading-relaxed text-body">{c.logIntro}</p>
+					<div class="grid grid-cols-2 gap-3.5">
+						<Field id="log-x1" label={c.labelX1} placeholder="10" />
+						<Field id="log-y1" label={c.labelY1} placeholder="1" />
+						<Field id="log-x2" label={c.labelX2} placeholder="1000" />
+						<Field id="log-y2" label={c.labelY2} placeholder="3" />
+					</div>
+					<Field id="log-x" label={c.labelXTarget} placeholder="100" highlight />
+					<p id="log-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
+				</form>
+
+				<!-- Bilinear panel -->
+				<form id="panel-bilinear" role="tabpanel" aria-labelledby="tab-bilinear" class="calc-panel hidden space-y-4">
+					<p class="text-sm leading-relaxed text-body">{c.bilinearIntro}</p>
+					<div class="grid grid-cols-2 gap-3.5">
+						<Field id="bi-x1" label={c.labelX1} placeholder="2" />
+						<Field id="bi-x2" label={c.labelX2} placeholder="4" />
+						<Field id="bi-y1" label={c.labelY1} placeholder="10" />
+						<Field id="bi-y2" label={c.labelY2} placeholder="20" />
+					</div>
+					<div class="grid grid-cols-2 gap-3.5">
+						<Field id="bi-q11" label={c.labelQ11} placeholder="4" />
+						<Field id="bi-q12" label={c.labelQ12} placeholder="6" />
+						<Field id="bi-q21" label={c.labelQ21} placeholder="8" />
+						<Field id="bi-q22" label={c.labelQ22} placeholder="10" />
+					</div>
+					<div class="grid grid-cols-2 gap-3.5">
+						<Field id="bi-x" label={c.labelXTarget} placeholder="3" highlight />
+						<Field id="bi-y" label={c.labelYTarget} placeholder="15" highlight />
+					</div>
+					<p id="bilinear-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
+				</form>
+			</div>
+
+			<!-- Results -->
+			<div class="mt-7 min-w-0 lg:mt-0">
+				<div class="sticky top-20 rounded-md border border-hairline bg-hairline-soft p-5 sm:p-6" aria-live="polite">
+					<p class="mono-eyebrow text-mute">{c.resultEyebrow}</p>
+					<div id="result-empty" class="mt-3 text-sm text-mute">
+						{c.resultEmpty}
+					</div>
+					<div id="result-content" class="hidden">
+						<div class="mt-2 flex flex-wrap items-baseline gap-2">
+							<span id="result-value" class="text-2xl font-semibold tracking-tight text-ink [font-variant-numeric:tabular-nums] break-all sm:text-3xl"></span>
+							<span id="result-badge" class="rounded-full px-2.5 py-0.5 text-xs font-medium"></span>
+						</div>
+						<ol id="result-steps" class="mt-5 space-y-3 border-t border-hairline pt-4"></ol>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="application/json" id="calc-i18n" is:inline set:html={JSON.stringify(dict).replace(/<\/script/gi, "<\\/script")} />
+
+<style>
+	.mode-tab {
+		color: var(--color-body);
+	}
+	.mode-tab[aria-selected="true"] {
+		background-color: var(--color-ink);
+		color: var(--color-ink-contrast);
+		box-shadow: var(--shadow-sm);
+	}
+	.mode-tab[aria-selected="false"]:hover {
+		background-color: var(--color-hairline-soft);
+		color: var(--color-ink);
+	}
+</style>
+
+<script>
+	import { linearInterpolate, logInterpolate, bilinearInterpolate, type CalcResult, type LinearMessages, type LogMessages, type BilinearMessages } from "../lib/interpolation";
+
+	type Mode = "linear" | "log" | "bilinear";
+
+	const tabs = document.querySelectorAll<HTMLButtonElement>(".mode-tab");
+	const panels: Record<Mode, HTMLElement> = {
+		linear: document.getElementById("panel-linear")!,
+		log: document.getElementById("panel-log")!,
+		bilinear: document.getElementById("panel-bilinear")!,
+	};
+
+	const resultEmpty = document.getElementById("result-empty")!;
+	const resultContent = document.getElementById("result-content")!;
+	const resultValue = document.getElementById("result-value")!;
+	const resultBadge = document.getElementById("result-badge")!;
+	const resultSteps = document.getElementById("result-steps")!;
+
+	// Localized strings are embedded as a JSON payload so this module script
+	// (which cannot receive Astro props directly) can read them at runtime.
+	const dictEl = document.getElementById("calc-i18n")!;
+	const dict = JSON.parse(dictEl.textContent || "{}");
+	const c = dict.calculator;
+
+	function invalidNumberMsg(field: string): string {
+		return (c.errors.invalidNumber as string).replace("{field}", field);
+	}
+
+	const linearMessages: LinearMessages = {
+		steps: c.steps.linear,
+		invalidNumber: invalidNumberMsg,
+		xEqual: c.errors.xEqual,
+	};
+	const logMessages: LogMessages = {
+		steps: c.steps.log,
+		invalidNumber: invalidNumberMsg,
+		logDomain: c.errors.logDomain,
+		xEqual: c.errors.logXEqual,
+	};
+	const bilinearMessages: BilinearMessages = {
+		steps: c.steps.bilinear,
+		invalidNumber: invalidNumberMsg,
+		xEqual: c.errors.bilinearXEqual,
+		yEqual: c.errors.bilinearYEqual,
+	};
+
+	let currentMode: Mode = "linear";
+
+	function setMode(mode: Mode) {
+		currentMode = mode;
+		tabs.forEach((tab) => {
+			const isActive = tab.dataset.mode === mode;
+			tab.setAttribute("aria-selected", String(isActive));
+		});
+		(Object.keys(panels) as Mode[]).forEach((key) => {
+			panels[key].classList.toggle("hidden", key !== mode);
+		});
+		clearResult();
+		compute();
+	}
+
+	tabs.forEach((tab, index) => {
+		tab.addEventListener("click", () => setMode(tab.dataset.mode as Mode));
+		tab.addEventListener("keydown", (e: KeyboardEvent) => {
+			let nextIndex: number | null = null;
+			if (e.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+			if (e.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+			if (nextIndex !== null) {
+				e.preventDefault();
+				const nextTab = tabs[nextIndex];
+				nextTab.focus();
+				setMode(nextTab.dataset.mode as Mode);
+			}
+		});
+	});
+
+	function clearResult() {
+		resultContent.classList.add("hidden");
+		resultEmpty.classList.remove("hidden");
+	}
+
+	function num(id: string): number {
+		const el = document.getElementById(id) as HTMLInputElement | null;
+		if (!el || el.value.trim() === "") return NaN;
+		return Number(el.value);
+	}
+
+	function showError(mode: Mode, message: string | null) {
+		const errorId = mode === "bilinear" ? "bilinear-error" : `${mode}-error`;
+		const el = document.getElementById(errorId);
+		if (!el) return;
+		if (message) {
+			el.textContent = message;
+			el.classList.remove("hidden");
+		} else {
+			el.classList.add("hidden");
+		}
+	}
+
+	function renderResult(res: CalcResult) {
+		if (!res.ok) {
+			resultContent.classList.add("hidden");
+			resultEmpty.classList.remove("hidden");
+			return;
+		}
+
+		resultEmpty.classList.add("hidden");
+		resultContent.classList.remove("hidden");
+
+		resultValue.textContent = `y = ${res.result}`;
+
+		if (res.position === "interpolated") {
+			resultBadge.textContent = c.resultInterpolated;
+			resultBadge.className = "rounded-full px-2.5 py-0.5 text-xs font-medium bg-link-soft text-link-deep";
+		} else {
+			resultBadge.textContent = c.resultExtrapolated;
+			resultBadge.className = "rounded-full px-2.5 py-0.5 text-xs font-medium bg-warning-soft text-warning-deep";
+		}
+
+		resultSteps.innerHTML = "";
+		res.steps.forEach((step, i) => {
+			const li = document.createElement("li");
+			li.className = "text-sm";
+			const label = document.createElement("p");
+			label.className = "text-xs font-medium uppercase tracking-wide text-mute";
+			label.textContent = `${i + 1}. ${step.label}`;
+			const expr = document.createElement("p");
+			expr.className = "mt-1 font-mono text-[13px] leading-relaxed text-ink break-words";
+			expr.textContent = step.expression;
+			li.appendChild(label);
+			li.appendChild(expr);
+			resultSteps.appendChild(li);
+		});
+
+		if (res.position !== "interpolated") {
+			const note = document.createElement("li");
+			note.className = "rounded-md border border-warning-deep/20 bg-warning-soft px-3.5 py-2.5 text-xs leading-relaxed text-warning-deep";
+			note.textContent = c.extrapolationNote;
+			resultSteps.appendChild(note);
+		}
+	}
+
+	function compute() {
+		if (currentMode === "linear") {
+			const x1 = num("lin-x1"), y1 = num("lin-y1"), x2 = num("lin-x2"), y2 = num("lin-y2"), x = num("lin-x");
+			if ([x1, y1, x2, y2, x].some((v) => Number.isNaN(v))) {
+				showError("linear", null);
+				clearResult();
+				return;
+			}
+			const res = linearInterpolate(x1, y1, x2, y2, x, linearMessages);
+			showError("linear", res.ok ? null : res.error);
+			renderResult(res);
+		} else if (currentMode === "log") {
+			const x1 = num("log-x1"), y1 = num("log-y1"), x2 = num("log-x2"), y2 = num("log-y2"), x = num("log-x");
+			if ([x1, y1, x2, y2, x].some((v) => Number.isNaN(v))) {
+				showError("log", null);
+				clearResult();
+				return;
+			}
+			const res = logInterpolate(x1, y1, x2, y2, x, logMessages);
+			showError("log", res.ok ? null : res.error);
+			renderResult(res);
+		} else {
+			const x1 = num("bi-x1"), x2 = num("bi-x2"), y1 = num("bi-y1"), y2 = num("bi-y2");
+			const q11 = num("bi-q11"), q12 = num("bi-q12"), q21 = num("bi-q21"), q22 = num("bi-q22");
+			const x = num("bi-x"), y = num("bi-y");
+			if ([x1, x2, y1, y2, q11, q12, q21, q22, x, y].some((v) => Number.isNaN(v))) {
+				showError("bilinear", null);
+				clearResult();
+				return;
+			}
+			const res = bilinearInterpolate(x1, x2, y1, y2, q11, q12, q21, q22, x, y, bilinearMessages);
+			showError("bilinear", res.ok ? null : res.error);
+			renderResult(res);
+		}
+	}
+
+	document.querySelectorAll<HTMLInputElement>(".calc-panel input").forEach((input) => {
+		input.addEventListener("input", compute);
+	});
+
+	document.querySelectorAll<HTMLFormElement>(".calc-panel").forEach((form) => {
+		form.addEventListener("submit", (e) => e.preventDefault());
+	});
+
+	setMode("linear");
+</script>

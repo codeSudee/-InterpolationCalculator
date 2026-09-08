@@ -1,0 +1,8 @@
+---
+import LegalPage from "../../components/LegalPage.astro";
+import { getDictionary } from "../../i18n/utils";
+
+const dict = getDictionary("it");
+---
+
+<LegalPage locale="it" currentPath="terms" content={dict.legal.terms} />

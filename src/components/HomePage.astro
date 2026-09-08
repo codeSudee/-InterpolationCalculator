@@ -1,0 +1,135 @@
+---
+import Layout from "../layouts/Layout.astro";
+import InterpolationCalculator from "./InterpolationCalculator.astro";
+import { getDictionary, localizedPath } from "../i18n/utils";
+import type { Locale } from "../i18n/languages";
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const dict = getDictionary(locale);
+---
+
+<Layout locale={locale}>
+	<!-- Hero -->
+	<section class="relative overflow-hidden border-b border-hairline">
+		<div
+			class="pointer-events-none absolute inset-0 -z-10 opacity-40 blur-3xl"
+			style="background: radial-gradient(600px circle at 20% 10%, var(--color-cyan), transparent 60%), radial-gradient(500px circle at 80% 0%, var(--color-violet), transparent 55%), radial-gradient(500px circle at 50% 30%, var(--color-pink), transparent 60%);"
+			aria-hidden="true"
+		>
+		</div>
+		<div class="container-page relative py-20 sm:py-28">
+			<p class="mono-eyebrow text-mute">{dict.hero.eyebrow}</p>
+			<h1 class="mt-5 max-w-2xl text-4xl font-semibold tracking-tight text-ink text-balance sm:text-5xl sm:leading-[1.05]" style="letter-spacing: var(--tracking-display);">
+				{dict.hero.heading}
+			</h1>
+			<p class="mt-5 max-w-xl text-base leading-relaxed text-body sm:text-lg">
+				{dict.hero.subheading}
+			</p>
+			<nav class="mt-8 flex flex-wrap gap-x-6 gap-y-2.5 text-sm">
+				<a href={localizedPath(locale, "about")} class="interactive text-body underline-offset-4 hover:text-ink hover:underline">
+					{dict.footer.navAbout}
+				</a>
+				<a href={localizedPath(locale, "privacy")} class="interactive text-body underline-offset-4 hover:text-ink hover:underline">
+					{dict.footer.navPrivacy}
+				</a>
+				<a href={localizedPath(locale, "terms")} class="interactive text-body underline-offset-4 hover:text-ink hover:underline">
+					{dict.footer.navTerms}
+				</a>
+				<a href={localizedPath(locale, "contact")} class="interactive text-body underline-offset-4 hover:text-ink hover:underline">
+					{dict.footer.navContact}
+				</a>
+			</nav>
+		</div>
+	</section>
+
+	<!-- Calculator -->
+	<div class="py-12 sm:py-16">
+		<InterpolationCalculator dict={dict} />
+	</div>
+
+	<!-- Explanation content -->
+	<section class="container-page py-12 sm:py-16">
+		<div class="grid gap-6 lg:grid-cols-3">
+			<article class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
+				<h2 class="text-lg font-semibold tracking-tight text-ink">{dict.explanation.linear.title}</h2>
+				<p class="mt-2.5 text-sm leading-relaxed text-body">
+					{dict.explanation.linear.intro}
+				</p>
+				<p class="mt-4 rounded-md border border-hairline bg-hairline-soft px-3.5 py-2.5 font-mono text-xs text-ink">
+					{dict.explanation.linear.formula}
+				</p>
+				<p class="mt-4 text-sm leading-relaxed text-body">
+					{dict.explanation.linear.note}
+				</p>
+			</article>
+
+			<article class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
+				<h2 class="text-lg font-semibold tracking-tight text-ink">{dict.explanation.log.title}</h2>
+				<p class="mt-2.5 text-sm leading-relaxed text-body">
+					{dict.explanation.log.intro}
+				</p>
+				<p class="mt-4 rounded-md border border-hairline bg-hairline-soft px-3.5 py-2.5 font-mono text-xs text-ink">
+					{dict.explanation.log.formula}
+				</p>
+				<p class="mt-4 text-sm leading-relaxed text-body">
+					{dict.explanation.log.note}
+				</p>
+			</article>
+
+			<article class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
+				<h2 class="text-lg font-semibold tracking-tight text-ink">{dict.explanation.bilinear.title}</h2>
+				<p class="mt-2.5 text-sm leading-relaxed text-body">
+					{dict.explanation.bilinear.intro}
+				</p>
+				<p class="mt-4 rounded-md border border-hairline bg-hairline-soft px-3.5 py-2.5 font-mono text-xs text-ink">
+					{dict.explanation.bilinear.formula}
+				</p>
+				<p class="mt-4 text-sm leading-relaxed text-body">
+					{dict.explanation.bilinear.note}
+				</p>
+			</article>
+		</div>
+	</section>
+
+	<!-- SEO content -->
+	<section class="container-page py-12 sm:py-16">
+		<div class="mx-auto max-w-3xl">
+			<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-[1.75rem]" style="letter-spacing: var(--tracking-heading);">{dict.seoContent.heading}</h2>
+			<p class="mt-4 text-sm leading-relaxed text-body sm:text-base">
+				{dict.seoContent.intro}
+			</p>
+			<div class="mt-9 space-y-9">
+				{dict.seoContent.sections.map((section) => (
+					<div>
+						<h3 class="text-base font-semibold tracking-tight text-ink sm:text-lg">{section.heading}</h3>
+						{section.body.map((paragraph) => (
+							<p class="mt-2.5 text-sm leading-relaxed text-body sm:text-base">{paragraph}</p>
+						))}
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<!-- FAQ -->
+	<section id="faq" class="container-page py-12 sm:py-16">
+		<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-[1.75rem]" style="letter-spacing: var(--tracking-heading);">{dict.faq.heading}</h2>
+		<div class="mt-7 divide-y divide-hairline rounded-lg border border-hairline">
+			{
+				dict.faq.items.map((item) => (
+					<details class="group px-5 py-4 first:rounded-t-lg last:rounded-b-lg open:bg-hairline-soft/60 sm:px-6">
+						<summary class="interactive flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-medium text-ink marker:content-none">
+							{item.q}
+							<span class="flex size-5 shrink-0 items-center justify-center text-mute transition-transform duration-200 ease-[var(--ease-standard)] group-open:rotate-45" aria-hidden="true">+</span>
+						</summary>
+						<p class="mt-2.5 text-sm leading-relaxed text-body">{item.a}</p>
+					</details>
+				))
+			}
+		</div>
+	</section>
+</Layout>
