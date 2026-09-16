@@ -56,7 +56,7 @@ const c = dict.calculator;
 			<!-- Inputs -->
 			<div class="min-w-0">
 				<!-- Linear panel -->
-				<form id="panel-linear" role="tabpanel" aria-labelledby="tab-linear" class="calc-panel space-y-4">
+				<div id="panel-linear" role="tabpanel" aria-labelledby="tab-linear" tabindex="0" class="calc-panel space-y-4">
 					<p class="text-sm leading-relaxed text-body">{c.linearIntro}</p>
 					<div class="grid grid-cols-2 gap-3.5">
 						<Field id="lin-x1" label={c.labelX1} placeholder="200" />
@@ -66,10 +66,10 @@ const c = dict.calculator;
 					</div>
 					<Field id="lin-x" label={c.labelXTarget} placeholder="250" highlight />
 					<p id="lin-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
-				</form>
+				</div>
 
 				<!-- Log panel -->
-				<form id="panel-log" role="tabpanel" aria-labelledby="tab-log" class="calc-panel hidden space-y-4">
+				<div id="panel-log" role="tabpanel" aria-labelledby="tab-log" tabindex="0" class="calc-panel hidden space-y-4">
 					<p class="text-sm leading-relaxed text-body">{c.logIntro}</p>
 					<div class="grid grid-cols-2 gap-3.5">
 						<Field id="log-x1" label={c.labelX1} placeholder="10" />
@@ -79,10 +79,10 @@ const c = dict.calculator;
 					</div>
 					<Field id="log-x" label={c.labelXTarget} placeholder="100" highlight />
 					<p id="log-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
-				</form>
+				</div>
 
 				<!-- Bilinear panel -->
-				<form id="panel-bilinear" role="tabpanel" aria-labelledby="tab-bilinear" class="calc-panel hidden space-y-4">
+				<div id="panel-bilinear" role="tabpanel" aria-labelledby="tab-bilinear" tabindex="0" class="calc-panel hidden space-y-4">
 					<p class="text-sm leading-relaxed text-body">{c.bilinearIntro}</p>
 					<div class="grid grid-cols-2 gap-3.5">
 						<Field id="bi-x1" label={c.labelX1} placeholder="2" />
@@ -101,7 +101,7 @@ const c = dict.calculator;
 						<Field id="bi-y" label={c.labelYTarget} placeholder="15" highlight />
 					</div>
 					<p id="bilinear-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
-				</form>
+				</div>
 			</div>
 
 			<!-- Results -->
@@ -321,10 +321,6 @@ const c = dict.calculator;
 
 	document.querySelectorAll<HTMLInputElement>(".calc-panel input").forEach((input) => {
 		input.addEventListener("input", compute);
-	});
-
-	document.querySelectorAll<HTMLFormElement>(".calc-panel").forEach((form) => {
-		form.addEventListener("submit", (e) => e.preventDefault());
 	});
 
 	setMode("linear");

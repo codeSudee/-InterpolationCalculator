@@ -106,23 +106,22 @@ const currentYear = new Date().getFullYear();
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
+			rel="preload"
+			as="style"
+			href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+		/>
+		<link
 			href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
 			rel="stylesheet"
+			media="print"
+			onload="this.media='all'"
 		/>
-
-		<!-- Google AdSense -->
-		<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6778789012514648"
-			crossorigin="anonymous"></script>
-
-		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z0GXQBS72C"></script>
-		<script is:inline>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-
-			gtag('config', 'G-Z0GXQBS72C');
-		</script>
+		<noscript>
+			<link
+				href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap"
+				rel="stylesheet"
+			/>
+		</noscript>
 	</head>
 	<body class="bg-canvas text-ink antialiased">
 		<a
@@ -294,5 +293,18 @@ const currentYear = new Date().getFullYear();
 				});
 			})();
 		</script>
+
+		<!-- Google tag (gtag.js) -->
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('config', 'G-Z0GXQBS72C');
+		</script>
+		<script async is:inline src="https://www.googletagmanager.com/gtag/js?id=G-Z0GXQBS72C"></script>
+
+		<!-- Google AdSense -->
+		<script async is:inline src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6778789012514648"
+			crossorigin="anonymous"></script>
 	</body>
 </html>
