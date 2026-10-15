@@ -16,13 +16,47 @@ const dict = getDictionary(locale);
 	<!-- Hero -->
 	<section class="relative isolate overflow-hidden border-b border-hairline">
 		<div
-			class="pointer-events-none absolute inset-0 -z-10 opacity-40 blur-3xl"
+			class="pointer-events-none absolute inset-0 -z-10 opacity-20 blur-3xl"
 			style="background: radial-gradient(600px circle at 20% 10%, var(--color-cyan), transparent 60%), radial-gradient(500px circle at 80% 0%, var(--color-violet), transparent 55%), radial-gradient(500px circle at 50% 30%, var(--color-pink), transparent 60%);"
 			aria-hidden="true"
 		>
 		</div>
+
+		<!-- Decorative math-watermarks: an interpolation-points sketch, a curve sketch, and the
+		     linear formula. Faint, non-interactive, and placed clear of the text column. -->
+		<svg
+			viewBox="0 0 48 48"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			class="pointer-events-none absolute -right-2 top-16 hidden -z-10 size-16 select-none text-ink/10 sm:block lg:size-20"
+			style="transform: rotate(6deg);"
+			aria-hidden="true"
+		>
+			<path d="M6 6v36M6 42h36"></path>
+			<circle cx="14" cy="30" r="2.1" fill="currentColor" stroke="none"></circle>
+			<circle cx="34" cy="14" r="2.1" fill="currentColor" stroke="none"></circle>
+			<circle cx="24" cy="22" r="2.1"></circle>
+			<path d="M14 30 24 22 34 14" stroke-dasharray="2.5 3.5"></path>
+		</svg>
+		<svg
+			viewBox="0 0 48 48"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			class="pointer-events-none absolute bottom-10 left-2 hidden -z-10 size-12 select-none text-ink/10 lg:block"
+			style="transform: rotate(-8deg);"
+			aria-hidden="true"
+		>
+			<path d="M6 6v36M6 42h36"></path>
+			<path d="M8 38C14 34 20 16 40 10"></path>
+		</svg>
 		<p
-			class="pointer-events-none absolute -right-3 bottom-6 hidden -z-10 max-w-[18rem] select-none text-right font-mono text-lg font-medium leading-snug text-ink/[0.16] sm:block lg:max-w-sm lg:text-xl"
+			class="pointer-events-none absolute -right-3 bottom-6 hidden -z-10 max-w-[18rem] select-none text-right font-mono text-base font-medium leading-snug text-ink/[0.08] sm:block lg:max-w-sm lg:text-lg"
 			style="transform: rotate(-3deg);"
 			aria-hidden="true"
 		>
