@@ -14,13 +14,20 @@ const dict = getDictionary(locale);
 
 <Layout locale={locale}>
 	<!-- Hero -->
-	<section class="relative overflow-hidden border-b border-hairline">
+	<section class="relative isolate overflow-hidden border-b border-hairline">
 		<div
 			class="pointer-events-none absolute inset-0 -z-10 opacity-40 blur-3xl"
 			style="background: radial-gradient(600px circle at 20% 10%, var(--color-cyan), transparent 60%), radial-gradient(500px circle at 80% 0%, var(--color-violet), transparent 55%), radial-gradient(500px circle at 50% 30%, var(--color-pink), transparent 60%);"
 			aria-hidden="true"
 		>
 		</div>
+		<p
+			class="pointer-events-none absolute -right-3 bottom-6 hidden -z-10 max-w-[18rem] select-none text-right font-mono text-lg font-medium leading-snug text-ink/[0.16] sm:block lg:max-w-sm lg:text-xl"
+			style="transform: rotate(-3deg);"
+			aria-hidden="true"
+		>
+			{dict.explanation.linear.formula}
+		</p>
 		<div class="container-page relative py-20 sm:py-28">
 			<p class="mono-eyebrow text-mute">{dict.hero.eyebrow}</p>
 			<h1 class="mt-5 max-w-2xl text-4xl font-semibold tracking-tight text-ink text-balance sm:text-5xl sm:leading-[1.05]" style="letter-spacing: var(--tracking-display);">

@@ -1,0 +1,43 @@
+---
+// Minimal line-art owl mascot, reused as the header brand mark and in the
+// calculator's empty-result state. Pupils use the accent cyan for a touch of
+// color without introducing a new palette.
+interface Props {
+	class?: string;
+}
+
+const { class: className = "size-4" } = Astro.props;
+---
+
+<svg
+	viewBox="0 0 24 24"
+	fill="none"
+	xmlns="http://www.w3.org/2000/svg"
+	class={className}
+	aria-hidden="true"
+>
+	<path
+		d="M6.5 4.5 9 8.3M17.5 4.5 15 8.3"
+		stroke="currentColor"
+		stroke-width="1.6"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	></path>
+	<path
+		d="M12 3.6c-4.1 0-7.1 3.1-7.1 7.3 0 3.7 2.2 6.6 4.7 7.9.5.3.8.3 1.3.3h2.2c.5 0 .8 0 1.3-.3 2.5-1.3 4.7-4.2 4.7-7.9 0-4.2-3-7.3-7.1-7.3Z"
+		stroke="currentColor"
+		stroke-width="1.6"
+		stroke-linejoin="round"
+	></path>
+	<circle cx="9.3" cy="11.1" r="1.9" stroke="currentColor" stroke-width="1.3"></circle>
+	<circle cx="14.7" cy="11.1" r="1.9" stroke="currentColor" stroke-width="1.3"></circle>
+	<circle cx="9.3" cy="11.1" r="0.6" fill="var(--color-cyan)"></circle>
+	<circle cx="14.7" cy="11.1" r="0.6" fill="var(--color-cyan)"></circle>
+	<path
+		d="M11.25 13.3 12 14.5l.75-1.2"
+		stroke="currentColor"
+		stroke-width="1.3"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	></path>
+</svg>
