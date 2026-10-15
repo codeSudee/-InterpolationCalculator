@@ -31,6 +31,7 @@ const currentYear = new Date().getFullYear();
 					var isDark = stored === "dark" || (stored !== "light" && prefersDark);
 					document.documentElement.classList.toggle("dark", isDark);
 				} catch (e) {}
+				document.documentElement.classList.add("js-reveal");
 			})();
 		</script>
 		<meta charset="utf-8" />
@@ -163,7 +164,7 @@ const currentYear = new Date().getFullYear();
 							aria-haspopup="true"
 							aria-expanded="false"
 							aria-label={dict.header.languageLabel}
-							class="interactive flex items-center gap-1 rounded-md px-2.5 py-2 text-sm font-medium text-body hover:bg-hairline-soft hover:text-ink"
+							class="interactive flex items-center gap-1 rounded-md px-2.5 py-2 text-sm font-medium text-body hover:bg-hairline-soft hover:text-ink active:scale-90"
 						>
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="size-[18px]" aria-hidden="true">
 								<circle cx="12" cy="12" r="10"></circle>
@@ -196,9 +197,8 @@ const currentYear = new Date().getFullYear();
 
 					<button
 						type="button"
-						id="theme-toggle"
-						aria-label={dict.header.themeToggleLabel}
-						class="interactive flex size-9 items-center justify-center rounded-md text-body hover:bg-hairline-soft hover:text-ink"
+												aria-label={dict.header.themeToggleLabel}
+						class="interactive flex size-9 items-center justify-center rounded-md text-body hover:bg-hairline-soft hover:text-ink active:scale-90"
 					>
 						<svg id="theme-icon-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="size-[18px]" aria-hidden="true">
 							<circle cx="12" cy="12" r="4"></circle>
@@ -292,6 +292,30 @@ const currentYear = new Date().getFullYear();
 					if (e.key === "Escape") closeMenu();
 				});
 			})();
+		</script>
+
+		<script>
+			// Fades below-the-fold sections in as they scroll into view. No-JS and
+			// reduced-motion visitors always see full content (see global.css).
+			const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+			const targets = document.querySelectorAll<HTMLElement>("[data-reveal]");
+
+			if (!("IntersectionObserver" in window) || reduceMotion) {
+				targets.forEach((el) => el.classList.add("is-visible"));
+			} else {
+				const io = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("is-visible");
+								io.unobserve(entry.target);
+							}
+						});
+					},
+					{ threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+				);
+				targets.forEach((el) => io.observe(el));
+			}
 		</script>
 
 		<!-- Google tag (gtag.js) -->

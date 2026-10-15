@@ -2,9 +2,9 @@ import type { Dictionary } from "../dictionary";
 
 export const pt: Dictionary = {
 	meta: {
-		title: "Calculadora de Interpolação Online — Linear, Logarítmica e Bilinear",
+		title: "Calculadora de interpolação – linear, logarítmica e bilinear, passo a passo",
 		description:
-			"Calculadora de interpolação online gratuita com resolução passo a passo. Suporta interpolação linear, logarítmica e dupla (bilinear), com identificação automática de extrapolação.",
+			"Estime valores entre pontos de dados conhecidos com interpolação linear, logarítmica ou dupla (bilinear). Cada resultado mostra todo o desenvolvimento, com exemplos resolvidos e orientação na escolha do método.",
 	},
 
 	header: {
@@ -20,7 +20,7 @@ export const pt: Dictionary = {
 		eyebrow: "Gratuita · Sem registo · Funciona no seu navegador",
 		heading: "Calculadora de interpolação, com os passos apresentados",
 		subheading:
-			"Estime um valor entre dois pontos conhecidos e veja exatamente como a resposta foi obtida — linear, logarítmica ou numa grelha 2D (bilinear).",
+			"Introduza os pontos de dados que conhece e obtenha uma estimativa para aquele que não conhece — com interpolação linear, logarítmica ou dupla (bilinear). Cada substituição e cada valor intermédio é apresentado, para que possa conferir a resposta em vez de confiar nela cegamente.",
 	},
 
 	calculator: {
@@ -31,9 +31,9 @@ export const pt: Dictionary = {
 
 		linearIntro: "Introduza dois pontos conhecidos e, em seguida, o valor de x para o qual quer estimar y.",
 		logIntro:
-			"Para dados que seguem uma curva logarítmica ao longo de x. Todos os valores de x têm de ser superiores a zero.",
+			"Para dados em que y varia linearmente com ln(x), como valores que abrangem várias ordens de grandeza. Todos os valores de x têm de ser superiores a zero.",
 		bilinearIntro:
-			"Interpole numa grelha 2D — quatro valores conhecidos nos cantos de um retângulo (por exemplo, tabelas de vapor).",
+			"Estime um valor dentro de uma tabela 2D a partir dos quatro valores conhecidos nos cantos da célula circundante (por exemplo, uma tabela de vapor).",
 
 		labelX1: "x₁",
 		labelY1: "y₁",
@@ -109,7 +109,7 @@ export const pt: Dictionary = {
 
 	explanation: {
 		linear: {
-			title: "Interpolação linear",
+			title: "Fórmula da interpolação linear",
 			intro:
 				"Pressupõe uma reta entre dois pontos. Dados (x₁, y₁) e (x₂, y₂), o valor de y para qualquer x é:",
 			formula: "y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁)",
@@ -117,49 +117,59 @@ export const pt: Dictionary = {
 				"Ideal para consultas em tabelas com espaçamento uniforme, conversões de unidades e qualquer relação que seja aproximadamente linear no intervalo que lhe interessa.",
 		},
 		log: {
-			title: "Interpolação logarítmica",
+			title: "Fórmula da interpolação logarítmica",
 			intro:
 				"Pressupõe que y varia linearmente com ln(x) em vez do próprio x — útil quando x abrange várias ordens de grandeza.",
 			formula: "y = y₁ + (ln x − ln x₁) × (y₂ − y₁) / (ln x₂ − ln x₁)",
 			note: "Comum para pH, decibéis, magnitude de Richter e outras medições em escala logarítmica.",
 		},
 		bilinear: {
-			title: "Interpolação dupla (bilinear)",
+			title: "Fórmula da interpolação dupla (bilinear)",
 			intro:
-				"Interpola em duas dimensões utilizando quatro valores conhecidos nos cantos — interpole em x duas vezes e, depois, interpole esse resultado em y.",
-			formula: "f(x,y) via f(x,y₁), f(x,y₂), then blend by y",
+				"Interpole primeiro em x ao longo de ambas as linhas conhecidas para obter R₁ (em y₁) e R₂ (em y₂) e, depois, interpole entre esses dois resultados em y:",
+			formula: "f(x,y) = R₁ + (y − y₁) × (R₂ − R₁) / (y₂ − y₁)",
 			note: "O método padrão para ler tabelas de vapor e outras tabelas de referência de engenharia 2D.",
 		},
 	},
 
 	seoContent: {
-		heading: "Tudo o que precisa para calcular interpolação online",
+		heading: "Como funciona a interpolação, com exemplos resolvidos",
 		intro:
-			"Esta calculadora de interpolação é um solucionador de interpolação gratuito e baseado no navegador, criado para estudantes, engenheiros e analistas de dados que precisam estimar um valor entre dois pontos de dados conhecidos sem montar uma fórmula numa folha de cálculo. Ao contrário de uma ferramenta típica de interpolação linear online, que lida apenas com um único caso de linha reta, esta calculadora de fórmulas de interpolação abrange três métodos distintos — linear, logarítmico e duplo (bilinear) — e mostra todo o desenvolvimento por detrás de cada resultado, para que possa verificar as contas em vez de simplesmente confiar numa resposta de caixa-preta.",
+			"A interpolação estima um valor desconhecido que se situa entre valores que já conhece. É assim que se lê entre as linhas de uma tabela de engenharia, se preenche uma lacuna em dados medidos ou se converte uma leitura numa escala que só está indicada em determinados pontos. O método certo depende de como os seus dados se comportam entre esses pontos conhecidos. As secções que se seguem explicam os três métodos que esta calculadora suporta, apresentam um exemplo de cada que pode reproduzir na calculadora acima e abordam as fontes de erro mais comuns.",
 		sections: [
 			{
-				heading: "Uma calculadora de interpolação linear para estimativas em linha reta",
+				heading: "Interpolação linear: exemplo resolvido",
 				body: [
-					"O modo de calculadora de interpolação linear é a forma mais comum de calcular interpolação. Forneça-lhe dois pontos conhecidos — (x₁, y₁) e (x₂, y₂) — mais o valor de x que pretende estimar, e ela aplica a fórmula padrão de interpolação linear: y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁). Esta é a mesma abordagem usada para ler entre as linhas de uma tabela de engenharia, converter unidades numa escala não padronizada ou preencher um ponto de dados em falta num conjunto de dados aproximadamente linear. Como tudo corre no lado do cliente, isto funciona como uma ferramenta de interpolação linear online sem instalação, sem conta e sem que nenhum dado saia do seu navegador.",
+					"A interpolação linear pressupõe que os dados seguem uma reta entre dois pontos conhecidos (x₁, y₁) e (x₂, y₂). A fórmula é y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁): determina o declive entre os dois pontos e depois desloca-se ao longo desse declive de x₁ até ao seu x alvo.",
+					"Exemplo: uma tabela indica y = 12.4 em x = 20 e y = 18.9 em x = 30, e precisa do valor em x = 24. O declive é (18.9 − 12.4) / (30 − 20) = 0.65 por unidade de x. O alvo está 4 unidades além de x₁, por isso y = 12.4 + 4 × 0.65 = 15.0. Introduza x₁ = 20, y₁ = 12.4, x₂ = 30, y₂ = 18.9 e x = 24 no separador Linear para ver os mesmos passos.",
 				],
 			},
 			{
-				heading: "Calculadora de interpolação logarítmica para dados de estilo exponencial",
+				heading: "Interpolação logarítmica: exemplo resolvido",
 				body: [
-					"Nem todos os conjuntos de dados formam uma linha reta. Quando uma grandeza varia de forma multiplicativa em vez de aditiva — pH, decibéis, magnitude de sismos ou qualquer medição que abranja várias ordens de grandeza —, uma simples calculadora de interpolação linear dar-lhe-á uma resposta distorcida. Em vez disso, o modo de calculadora de interpolação logarítmica assume que y varia linearmente com ln(x), o que se ajusta a este tipo de curva com muito maior precisão. Introduza os seus dois pares conhecidos de x/y (com valores de x maiores que zero) e o x alvo, e o solucionador de interpolação percorre o cálculo dos logaritmos naturais, calcula o declive no espaço logarítmico e aplica-o para devolver uma estimativa realista.",
+					"Algumas grandezas variam por uma quantidade constante sempre que x é multiplicado por um fator fixo, em vez de sempre que x aumenta por uma quantidade fixa. O nível sonoro em decibéis, o pH e a magnitude dos sismos comportam-se todos assim. Para este tipo de dados, y é uma reta em relação a ln(x), pelo que a interpolação logarítmica aplica a fórmula linear a ln(x) em vez de x.",
+					"Exemplo: uma intensidade sonora de 1 µW/m² corresponde a 60 dB e 100 µW/m² corresponde a 80 dB. Qual é o nível a 10 µW/m²? A interpolação logarítmica dá 60 + (ln 10 − ln 1) × (80 − 60) / (ln 100 − ln 1) = 70 dB, o que está exatamente correto, porque 10 está um fator de dez acima de 1 e um fator de dez abaixo de 100. Uma interpolação linear simples devolveria cerca de 61.8 dB, porque trata o 10 como estando apenas a 9% do caminho de 1 até 100. Usar o método errado em dados logarítmicos pode produzir erros desta ordem de grandeza.",
 				],
 			},
 			{
-				heading: "Calculadora de interpolação dupla (bilinear) para grelhas 2D",
+				heading: "Interpolação dupla (bilinear): exemplo resolvido",
 				body: [
-					"Alguns problemas não podem ser resolvidos apenas com um único par de pontos. As tabelas de vapor, os gráficos de propriedades do ar e outras referências de engenharia bidimensionais listam um valor na interseção de uma linha e de uma coluna — o que significa que muitas vezes precisa de estimar um ponto que fica entre quatro valores de grelha circundantes. É exatamente para isso que serve a calculadora de interpolação dupla (também chamada calculadora de interpolação bilinear). Forneça os quatro valores dos cantos Q₁₁, Q₁₂, Q₂₁ e Q₂₂ juntamente com o seu x e y alvo, e a ferramenta interpola em x duas vezes — uma em y₁ e outra em y₂ — e depois combina esses dois resultados em y para produzir a estimativa final, com todos os passos intermédios apresentados.",
+					"As tabelas bidimensionais, como as tabelas de vapor sobreaquecido, listam um valor para cada combinação de uma variável de linha e uma variável de coluna. Quando ambas as suas entradas caem entre valores listados, precisa das quatro entradas de tabela circundantes: Q₁₁ = f(x₁, y₁), Q₂₁ = f(x₂, y₁), Q₁₂ = f(x₁, y₂) e Q₂₂ = f(x₂, y₂). A interpolação bilinear interpola primeiro em x ao longo de cada uma das duas linhas e depois interpola entre esses dois resultados em y.",
+					"Exemplo: com x₁ = 10, x₂ = 20, y₁ = 100 e y₂ = 200, a tabela fornece Q₁₁ = 50, Q₂₁ = 70, Q₁₂ = 60 e Q₂₂ = 90. Para estimar f(14, 130), interpole primeiro ao longo de y₁: R₁ = 50 + (14 − 10) × (70 − 50) / 10 = 58. Depois ao longo de y₂: R₂ = 60 + 0.4 × (90 − 60) = 72. Por fim, interpole em y: f = 58 + (130 − 100) × (72 − 58) / 100 = 62.2. Interpolar primeiro em y e depois em x dá o mesmo 62.2.",
 				],
 			},
 			{
-				heading: "Porquê usar esta calculadora de fórmulas de interpolação",
+				heading: "Como escolher um método",
 				body: [
-					"A maioria das calculadoras que afirmam calcular interpolação devolve apenas um número final, o que torna difícil detetar um erro de digitação nos seus dados de entrada ou perceber por que motivo uma resposta parece estranha. Esta ferramenta de calculadora de interpolação online mostra cada substituição, cada declive e cada resultado intermédio, e sinaliza automaticamente quando o seu valor alvo fica fora do intervalo dos seus dados conhecidos — rotulando esse resultado como extrapolado em vez de interpolado, uma vez que as estimativas extrapoladas comportam maior incerteza. Suporta os três métodos de interpolação num só lugar, para que não precise de saltar entre solucionadores separados de interpolação linear, interpolação logarítmica e interpolação bilinear para diferentes partes do mesmo projeto.",
-					"Quer seja um estudante a verificar os trabalhos de casa, um engenheiro a ler uma tabela de vapor ou qualquer pessoa que apenas precisa de calcular interpolação para uma estimativa pontual, esta ferramenta é gratuita, não exige registo e funciona inteiramente no seu navegador — nada é carregado nem armazenado num servidor.",
+					"Use a interpolação linear quando os pontos conhecidos estão próximos uns dos outros e os dados parecem aproximadamente retos entre eles. Isto cobre a maioria das consultas em tabela. Use a interpolação logarítmica quando os valores de x abrangem um intervalo amplo (por exemplo, de 1 a 1.000) e os dados se dispõem numa reta num eixo x logarítmico. Use a interpolação dupla sempre que o valor depende de duas entradas ao mesmo tempo e está a ler a partir de uma grelha.",
+					"Se estiver em dúvida, represente graficamente alguns valores de tabela vizinhos. Os pontos que ficam sobre uma reta em eixos comuns são adequados à interpolação linear. Os pontos que só se endireitam quando x é representado numa escala logarítmica são adequados à interpolação logarítmica.",
+				],
+			},
+			{
+				heading: "Exatidão e erros comuns",
+				body: [
+					"A interpolação linear só é exata quando os dados realmente formam uma reta. Para uma função f curva, o erro é no máximo (x₂ − x₁)² / 8 multiplicado pelo maior valor de |f″| entre os dois pontos. Na prática, isto significa que reduzir para metade o espaçamento entre os pontos conhecidos diminui o erro no pior caso para cerca de um quarto. Quando uma tabela oferece linhas mais finas perto do seu alvo, utilize-as.",
+					"Os erros mais frequentes são confundir qual valor pertence a x₁ e qual pertence a x₂, misturar unidades (por exemplo, kPa numa linha e bar noutra) e ler Q₁₂ e Q₂₁ das células erradas de uma tabela 2D. Estimar fora do intervalo conhecido também é arriscado. A calculadora rotula esses resultados como extrapolados porque a reta ou curva assumida pode não continuar para além dos seus dados.",
 				],
 			},
 		],
@@ -169,56 +179,48 @@ export const pt: Dictionary = {
 		heading: "Perguntas frequentes",
 		items: [
 			{
-				q: "O que é uma calculadora de interpolação?",
-				a: "Uma calculadora de interpolação é uma ferramenta que estima um valor desconhecido situado entre dois (ou mais) pontos de dados conhecidos. Em vez de aplicar manualmente a fórmula de interpolação, introduz os seus pontos conhecidos e o valor alvo de x (ou de x e y), e a calculadora devolve o resultado estimado — esta ferramenta mostra ainda todos os passos, detalhadamente, para a interpolação linear, logarítmica e dupla (bilinear).",
-			},
-			{
-				q: "Como funciona uma calculadora de interpolação linear?",
-				a: "Uma calculadora de interpolação linear assume que uma reta liga os seus dois pontos conhecidos, (x1, y1) e (x2, y2). Introduz esses dois pontos, mais o valor de x para o qual pretende estimar y, e a calculadora aplica a fórmula de interpolação linear para determinar onde esse x se situa, proporcionalmente, ao longo da reta entre y1 e y2.",
+				q: "O que é a interpolação?",
+				a: "A interpolação consiste em estimar um valor desconhecido situado entre dois ou mais pontos de dados conhecidos, assumindo que uma forma simples, como uma reta, os liga. É comummente usada para ler valores entre as linhas listadas de tabelas de referência e para preencher lacunas em dados medidos.",
 			},
 			{
 				q: "Qual é a fórmula da interpolação linear?",
-				a: "A fórmula da interpolação linear é y = y1 + (x − x1) × (y2 − y1) / (x2 − x1). Calcula o declive entre dois pontos conhecidos, (x1, y1) e (x2, y2), e depois aplica esse declive à distância entre x e x1 para estimar y.",
+				a: "y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁). A fração (y₂ − y₁) / (x₂ − x₁) é o declive da reta que passa pelos dois pontos conhecidos, e multiplicá-la por (x − x₁) indica quanto y se deslocou desde y₁ até ao momento em que chega a x.",
 			},
 			{
-				q: "Quando devo usar interpolação linear?",
-				a: "Use a interpolação linear quando os seus dados forem aproximadamente uma reta no intervalo que lhe interessa — algo comum em consultas de tabelas com espaçamento uniforme, conversões de unidades e na estimativa de valores entre duas medições próximas. É o método de interpolação mais simples e mais utilizado, mas pode ser impreciso se a verdadeira relação apresentar uma curvatura acentuada entre os seus dois pontos conhecidos.",
-			},
-			{
-				q: "O que é a interpolação logarítmica?",
-				a: "A interpolação logarítmica é um método que assume que y varia linearmente com ln(x) e não com o próprio x. Utiliza-se quando os dados abrangem várias ordens de grandeza ou mudam de forma multiplicativa em vez de aditiva, já que um ajuste em linha reta (linear) aproximaria mal esse tipo de curva.",
+				q: "Quando é que a interpolação linear é suficientemente exata?",
+				a: "Quando os pontos conhecidos estão próximos uns dos outros e os dados estão próximos de uma reta entre eles. Para uma relação curva, o erro cresce com o quadrado do espaçamento entre os pontos, por isso usar as linhas de tabela disponíveis mais próximas costuma importar mais do que a escolha do método.",
 			},
 			{
 				q: "Quando devo usar interpolação logarítmica em vez de linear?",
-				a: "Use a interpolação logarítmica quando os seus dados crescem ou decaem de forma multiplicativa e não aditiva — algo comum em escalas de pH, decibéis/intensidade sonora, magnitude de sismos e alguns dados de crescimento financeiro ou biológico. Se, ao representar os seus dados numa escala logarítmica em x, o gráfico parecer uma reta, a interpolação logarítmica costuma ajustar-se melhor do que a linear.",
+				a: "Use-a quando y muda aproximadamente pela mesma quantidade sempre que x é multiplicado por um fator constante — por exemplo, decibéis face à intensidade sonora, ou pH face à concentração de iões de hidrogénio. Se os seus dados formam uma reta quando x é representado num eixo logarítmico, a interpolação logarítmica ajustar-se-á melhor do que a linear.",
 			},
 			{
-				q: "O que é uma calculadora de interpolação dupla (bilinear)?",
-				a: "Uma calculadora de interpolação dupla (bilinear) estima um valor a partir de uma grelha 2D de pontos conhecidos, em vez de apenas dois. Fornece quatro valores conhecidos nos cantos — Q11, Q12, Q21 e Q22 — juntamente com os seus valores alvo de x e y, e a calculadora interpola nas duas dimensões para devolver o resultado estimado.",
+				q: "Porque é que x tem de ser maior que zero na interpolação logarítmica?",
+				a: "A interpolação logarítmica trabalha com ln(x), e o logaritmo natural só está definido para números positivos. Se os seus valores de x incluem zero ou negativos, os dados não podem estar numa escala logarítmica em x, e a interpolação linear é o método adequado.",
 			},
 			{
 				q: "Como funciona a interpolação dupla (bilinear)?",
-				a: "A interpolação dupla (bilinear) funciona interpolando duas vezes numa direção e uma vez na outra. Primeiro interpola em x, em y1 e novamente em y2, para obter dois resultados intermédios; depois interpola esses dois resultados em y para produzir a estimativa final — combinando, na prática, os quatro valores dos cantos consoante a proximidade do ponto alvo a cada um deles.",
+				a: "Utiliza os quatro valores conhecidos nos cantos da célula de tabela que contém o seu ponto alvo. Interpola em x ao longo da linha inferior (obtendo R₁) e da linha superior (obtendo R₂) e depois interpola entre R₁ e R₂ em y. O resultado é uma média ponderada dos quatro cantos, com os cantos mais próximos a terem maior peso.",
 			},
 			{
-				q: "Para que serve a interpolação dupla?",
-				a: "A interpolação dupla serve para ler um valor a partir de uma grelha 2D de pontos conhecidos — por exemplo, ao ler uma propriedade (como a entalpia) numa tabela de vapor em que tanto a pressão como a temperatura ficam entre as linhas e colunas listadas. Funciona interpolando duas vezes: primeiro em x e depois em y.",
-			},
-			{
-				q: "A calculadora de interpolação consegue mostrar os resultados passo a passo?",
-				a: "Sim. Esta calculadora mostra todos os passos do cálculo — a substituição dos seus valores, o cálculo do declive (ou do declive logarítmico, no caso da interpolação logarítmica) e a sua aplicação até chegar ao resultado final — para que possa verificar você mesmo as contas, em vez de ver apenas um número final.",
+				q: "Faz diferença interpolar primeiro em x ou em y?",
+				a: "Não. Na interpolação bilinear, fazer primeiro x e depois y dá exatamente o mesmo resultado que fazer primeiro y e depois x. O exemplo resolvido acima dá 62.2 em qualquer das ordens.",
 			},
 			{
 				q: "Qual é a diferença entre interpolação e extrapolação?",
-				a: "A interpolação estima um valor situado entre dois pontos de dados conhecidos. A extrapolação estima um valor fora desse intervalo. A extrapolação usa a mesma fórmula, mas é intrinsecamente menos fiável, uma vez que se está a assumir que a tendência continua para além dos dados que realmente tem.",
+				a: "A interpolação estima um valor dentro do intervalo dos seus pontos conhecidos; a extrapolação estima um valor fora dele. A fórmula é a mesma, por isso a calculadora continua a devolver um número, mas rotula o resultado como extrapolado porque não há dados que confirmem que a tendência continua para além dos seus pontos conhecidos.",
 			},
 			{
-				q: "Porque é que a calculadora indica \"extrapolado\" em vez de dar um erro?",
-				a: "Um x alvo fora dos seus dois pontos conhecidos continua a ser matematicamente calculável — a reta ou curva é simplesmente prolongada para além dos dados que forneceu. A indicação é um aviso, não um erro: a matemática está correta, mas a confiança no resultado diminui à medida que se afasta do intervalo conhecido.",
+				q: "Porque recebo um erro quando x₁ é igual a x₂?",
+				a: "Todas as fórmulas aqui dividem por (x₂ − x₁), ou por (ln x₂ − ln x₁) no modo logarítmico. Quando os dois valores de x são iguais, isto é uma divisão por zero, e dois pontos com o mesmo x não podem definir uma reta. O mesmo se aplica a y₁ e y₂ na interpolação dupla.",
 			},
 			{
-				q: "Porque recebo um erro quando x1 é igual a x2?",
-				a: "A fórmula de interpolação divide por (x2 − x1). Se x1 e x2 forem iguais, isso corresponde a uma divisão por zero, que é matematicamente indefinida. São necessários dois valores de x distintos para definir uma reta (ou curva) ao longo da qual interpolar.",
+				q: "Qual é a precisão dos resultados?",
+				a: "Os cálculos usam a aritmética de vírgula flutuante de dupla precisão padrão. Por legibilidade, os valores intermédios nos passos são arredondados a seis casas decimais, e o resultado final é apresentado com 12 algarismos significativos. Este arredondamento afeta apenas o que é apresentado; cada passo é calculado a partir dos valores não arredondados.",
+			},
+			{
+				q: "Os números que introduzo são enviados ou armazenados em algum lugar?",
+				a: "Não. Todos os cálculos são executados no seu navegador e os seus dados nunca são enviados para um servidor. Atualizar ou fechar a página apaga-os.",
 			},
 		],
 	},
@@ -237,30 +239,36 @@ export const pt: Dictionary = {
 		lastUpdated: "Última atualização: {date}",
 
 		about: {
-			metaTitle: "Sobre Nós – Interpolation Calculator Online",
+			metaTitle: "Sobre – Interpolation Calculator Online",
 			metaDescription:
-				"Saiba mais sobre o Interpolation Calculator Online, uma ferramenta gratuita baseada no navegador para interpolação linear, logarítmica e bilinear com resultados passo a passo.",
-			heading: "Sobre o Interpolation Calculator Online",
+				"Porque existe esta calculadora de interpolação, como os seus resultados são verificados e quem a mantém.",
+			heading: "Sobre a calculadora de interpolação",
 			intro:
-				"O Interpolation Calculator Online é uma ferramenta gratuita, baseada no navegador, criada para tornar a estimativa de valores entre pontos de dados conhecidos rápida, transparente e precisa — sem necessidade de uma folha de cálculo ou de uma fórmula de manual à sua frente.",
+				"A calculadora de interpolação é um projeto independente que estima valores entre pontos de dados conhecidos usando interpolação linear, logarítmica e dupla (bilinear). Mostra todos os passos do cálculo, para que possa conferir a resposta em vez de confiar nela cegamente.",
 			sections: [
 				{
-					heading: "Porque criámos isto",
+					heading: "Porque existe este site",
 					body: [
-						"A interpolação aparece em todo o lado: na leitura de tabelas de engenharia, na conversão entre escalas de medição, no preenchimento de pontos de dados em falta e na estimativa de valores a partir de tabelas de vapor ou tabelas de referência. A maioria das calculadoras online devolve apenas um número final, o que torna difícil detetar um erro ou compreender como a resposta foi obtida.",
-						"Criámos esta calculadora para mostrar todo o desenvolvimento — cada substituição, cálculo de declive e resultado intermédio — para que possa verificar a matemática por si próprio, quer seja um estudante a conferir os trabalhos de casa ou um engenheiro a fazer dupla verificação da consulta de uma tabela.",
+						"A interpolação surge constantemente nos estudos e na prática de engenharia: ao ler tabelas de vapor e de propriedades, ao trabalhar com gráficos de calibração ou ao preencher uma lacuna em dados medidos. A aritmética é simples, mas também é fácil de errar à mão. Os deslizes comuns incluem trocar x₁ e x₂, ler a célula errada de uma tabela 2D ou aplicar uma estimativa em linha reta a dados logarítmicos.",
+						"A maioria das ferramentas online devolve apenas um número final, o que não deixa forma de detetar um erro de introdução. Esta calculadora mostra a fórmula, os seus valores substituídos, o declive e cada resultado intermédio, para que cada passo possa ser comparado com um manual ou com um cálculo à mão.",
 					],
 				},
 				{
-					heading: "O que esta ferramenta faz",
+					heading: "Como os resultados são verificados",
 					body: [
-						"Este site disponibiliza três métodos de interpolação num só lugar: interpolação linear para estimativas em linha reta, interpolação logarítmica para dados que abrangem várias ordens de grandeza e interpolação dupla (bilinear) para grelhas bidimensionais como as tabelas de vapor. Todos os cálculos são executados inteiramente no seu navegador — nada do que introduz é enviado para um servidor ou armazenado em qualquer lugar.",
+						"Os três métodos usam as fórmulas padrão dos manuais descritas na página inicial. Os resultados foram verificados face a cálculos à mão, incluindo os exemplos resolvidos da página inicial. A calculadora também trata explicitamente os casos limite, devolvendo uma mensagem clara em vez de um número sem sentido quando os valores de x são iguais ou quando uma entrada logarítmica é nula ou negativa. Quando um alvo cai fora do intervalo, o resultado é rotulado como extrapolado em vez de ser apresentado sem qualquer indicação.",
 					],
 				},
 				{
-					heading: "Para quem é",
+					heading: "Privacidade desde a conceção",
 					body: [
-						"Estudantes, engenheiros, cientistas e qualquer pessoa que ocasionalmente precise de calcular um valor interpolado sem configurar uma folha de cálculo. A ferramenta é gratuita, não exige conta e funciona tanto em computador como em dispositivos móveis.",
+						"Todos os cálculos são executados no seu navegador. Os números que introduz nunca são enviados para um servidor, pelo que a calculadora funciona também com dados confidenciais ou não publicados. A Política de Privacidade explica o que o site efetivamente recolhe, como os cookies padrão de análise e de publicidade.",
+					],
+				},
+				{
+					heading: "Comentários",
+					body: [
+						"Se encontrar um resultado que pareça errado, uma explicação confusa ou um método que gostaria de ver adicionado, entre em contacto através da página de Contacto. Os relatórios que incluem os dados exatos que utilizou são os mais rápidos de investigar e corrigir.",
 					],
 				},
 			],
@@ -269,45 +277,59 @@ export const pt: Dictionary = {
 		privacy: {
 			metaTitle: "Política de Privacidade – Interpolation Calculator Online",
 			metaDescription:
-				"Leia a política de privacidade do Interpolation Calculator Online. Não recolhemos nem armazenamos os números que introduz — todos os cálculos são executados localmente no seu navegador.",
+				"Que informações o interpcalc.com recolhe, como são utilizados os cookies do Google Analytics e do Google AdSense e como recusá-los. Os dados introduzidos na calculadora nunca saem do seu navegador.",
 			heading: "Política de Privacidade",
 			intro:
-				"Esta Política de Privacidade explica que informações o Interpolation Calculator Online (\"nós\", \"este site\") recolhe quando utiliza este website, e como são utilizadas.",
+				"Esta Política de Privacidade explica que informações o interpcalc.com (\"este site\", \"nós\") recolhe quando o visita, como são utilizadas e que escolhas tem à disposição.",
 			sections: [
 				{
 					heading: "Dados introduzidos na calculadora",
 					body: [
-						"Os números que introduz na calculadora de interpolação são processados inteiramente dentro do seu navegador utilizando JavaScript do lado do cliente. Nunca são transmitidos para os nossos servidores, armazenados numa base de dados ou partilhados com terceiros. Fechar ou atualizar a página apaga tudo o que introduziu.",
+						"Os números que introduz na calculadora são processados inteiramente dentro do seu navegador utilizando JavaScript do lado do cliente. Nunca são enviados para os nossos servidores, armazenados numa base de dados ou partilhados com quem quer que seja. Atualizar ou fechar a página apaga-os.",
 					],
 				},
 				{
-					heading: "Análise e cookies",
+					heading: "Análise",
 					body: [
-						"Este site pode utilizar ferramentas de análise que respeitam a privacidade para compreender padrões de tráfego agregados (como quais as páginas visitadas e de que país provêm os visitantes), a fim de melhorar o site. Estas ferramentas não rastreiam os dados que introduz na calculadora nem constroem um perfil individual sobre si. Se forem utilizados cookies para análise ou publicidade, o seu navegador normalmente permitir-lhe-á bloqueá-los ou apagá-los a qualquer momento através das suas definições.",
+						"Este site utiliza o Google Analytics para compreender a utilização agregada, como quais as páginas visitadas, o país aproximado de onde provêm os visitantes e o tipo de dispositivo e navegador utilizado. O Google Analytics utiliza cookies e recolhe dados técnicos padrão, como o seu endereço IP, para produzir estes relatórios. Não recebe os valores que introduz na calculadora. Pode impedir que o Google Analytics recolha dados instalando o suplemento do navegador para desativação do Google Analytics (tools.google.com/dlpage/gaoptout).",
 					],
 				},
 				{
-					heading: "Serviços de terceiros",
+					heading: "Publicidade",
 					body: [
-						"Podemos utilizar serviços de terceiros (como fornecedores de alojamento, redes de distribuição de conteúdos ou fornecedores de análise) para operar este site. Estes fornecedores podem recolher informações técnicas padrão, como o seu endereço IP e o tipo de navegador, como parte da entrega do website. Não controlamos as práticas de privacidade dos serviços de terceiros e recomendamos que consulte as respetivas políticas de privacidade.",
+						"Este site utiliza o Google AdSense para apresentar anúncios. Fornecedores terceiros, incluindo a Google, utilizam cookies para publicar anúncios com base nas suas visitas anteriores a este e a outros sites. A utilização de cookies de publicidade pela Google permite que esta e os seus parceiros lhe apresentem anúncios com base nas suas visitas a este e a outros sites na Internet.",
+						"Pode recusar a publicidade personalizada visitando as Definições de anúncios da Google (adssettings.google.com). Pode também recusar a utilização de cookies para publicidade personalizada por parte de alguns fornecedores terceiros em www.aboutads.info. Para mais informações sobre como a Google utiliza os dados, consulte policies.google.com/technologies/partner-sites.",
+						"Aos visitantes no Espaço Económico Europeu, no Reino Unido e na Suíça poderá ser pedido consentimento antes de serem definidos cookies de publicidade personalizada, podendo alterar essa escolha a qualquer momento.",
+					],
+				},
+				{
+					heading: "Cookies e armazenamento local",
+					body: [
+						"Além dos cookies de análise e publicidade descritos acima, o site armazena uma única preferência no armazenamento local do seu navegador: a sua escolha de tema claro ou escuro. Pode bloquear ou eliminar cookies e o armazenamento local a qualquer momento através das definições do seu navegador. A calculadora continuará a funcionar.",
+					],
+				},
+				{
+					heading: "Alojamento",
+					body: [
+						"O site é alojado na Cloudflare, que processa dados de pedido padrão (como o endereço IP e o tipo de navegador) para entregar as páginas e proteger o site contra abusos.",
 					],
 				},
 				{
 					heading: "Privacidade das crianças",
 					body: [
-						"Este site não recolhe intencionalmente informações pessoais de crianças. A própria calculadora não exige nem solicita quaisquer informações pessoais para funcionar.",
+						"Este site não se dirige a crianças com menos de 13 anos e não recolhe intencionalmente informações pessoais delas. A calculadora não solicita quaisquer informações pessoais.",
 					],
 				},
 				{
 					heading: "Alterações a esta política",
 					body: [
-						"Podemos atualizar esta Política de Privacidade periodicamente para refletir alterações no site ou na legislação aplicável. Quaisquer alterações serão publicadas nesta página.",
+						"Podemos atualizar esta Política de Privacidade quando o site ou a legislação aplicável mudarem. As atualizações serão publicadas nesta página.",
 					],
 				},
 				{
-					heading: "Contacte-nos",
+					heading: "Contacto",
 					body: [
-						"Se tiver dúvidas sobre esta Política de Privacidade, visite a nossa página de Contacto.",
+						"Se tiver dúvidas sobre esta Política de Privacidade, escreva para code.sudeepto@gmail.com.",
 					],
 				},
 			],
@@ -368,7 +390,7 @@ export const pt: Dictionary = {
 			intro:
 				"Tem uma questão, encontrou um erro ou quer sugerir uma funcionalidade? Gostaríamos de o ouvir. Contacte-nos através do endereço de email abaixo.",
 			emailLabel: "Email:",
-			email: "support@interpcalc.com",
+			email: "code.sudeepto@gmail.com",
 			sections: [
 				{
 					heading: "Comentários e relatórios de erros",

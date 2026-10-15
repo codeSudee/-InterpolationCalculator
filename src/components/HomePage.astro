@@ -54,7 +54,7 @@ const dict = getDictionary(locale);
 	<!-- Explanation content -->
 	<section class="container-page py-12 sm:py-16">
 		<div class="grid gap-6 lg:grid-cols-3">
-			<article class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
+			<article data-reveal class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
 				<h2 class="text-lg font-semibold tracking-tight text-ink">{dict.explanation.linear.title}</h2>
 				<p class="mt-2.5 text-sm leading-relaxed text-body">
 					{dict.explanation.linear.intro}
@@ -67,7 +67,7 @@ const dict = getDictionary(locale);
 				</p>
 			</article>
 
-			<article class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
+			<article data-reveal class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
 				<h2 class="text-lg font-semibold tracking-tight text-ink">{dict.explanation.log.title}</h2>
 				<p class="mt-2.5 text-sm leading-relaxed text-body">
 					{dict.explanation.log.intro}
@@ -80,7 +80,7 @@ const dict = getDictionary(locale);
 				</p>
 			</article>
 
-			<article class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
+			<article data-reveal class="card-surface card-surface-hover rounded-lg p-6 sm:p-7">
 				<h2 class="text-lg font-semibold tracking-tight text-ink">{dict.explanation.bilinear.title}</h2>
 				<p class="mt-2.5 text-sm leading-relaxed text-body">
 					{dict.explanation.bilinear.intro}
@@ -96,7 +96,7 @@ const dict = getDictionary(locale);
 	</section>
 
 	<!-- SEO content -->
-	<section class="container-page py-12 sm:py-16">
+	<section data-reveal class="container-page py-12 sm:py-16">
 		<div class="mx-auto max-w-3xl">
 			<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-[1.75rem]" style="letter-spacing: var(--tracking-heading);">{dict.seoContent.heading}</h2>
 			<p class="mt-4 text-sm leading-relaxed text-body sm:text-base">
@@ -116,7 +116,7 @@ const dict = getDictionary(locale);
 	</section>
 
 	<!-- FAQ -->
-	<section id="faq" class="container-page py-12 sm:py-16">
+	<section id="faq" data-reveal class="container-page py-12 sm:py-16">
 		<h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-[1.75rem]" style="letter-spacing: var(--tracking-heading);">{dict.faq.heading}</h2>
 		<div class="mt-7 divide-y divide-hairline rounded-lg border border-hairline">
 			{

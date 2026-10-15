@@ -2,9 +2,9 @@ import type { Dictionary } from "../dictionary";
 
 export const en: Dictionary = {
 	meta: {
-		title: "Interpolation Calculator Online – Linear, Bilinear & Logarithmic",
+		title: "Interpolation Calculator – Linear, Logarithmic & Bilinear, Step by Step",
 		description:
-			"Free interpolation calculator online with step-by-step results. Solve linear, double (bilinear), and logarithmic interpolation — a fast, accurate interpolation solver.",
+			"Estimate values between known data points with linear, logarithmic, or double (bilinear) interpolation. Every result shows the full working, with worked examples and guidance on choosing a method.",
 	},
 
 	header: {
@@ -20,7 +20,7 @@ export const en: Dictionary = {
 		eyebrow: "Free · No sign-up · Runs in your browser",
 		heading: "Interpolation Calculator with Step-by-Step Results",
 		subheading:
-			"A free interpolation calculator online for linear interpolation, double (bilinear) interpolation, and logarithmic interpolation. Enter your known points to calculate interpolation instantly and see exactly how the interpolation formula calculator derived the answer.",
+			"Enter the data points you know and get an estimate for the one you don't — using linear, logarithmic, or double (bilinear) interpolation. Every substitution and intermediate value is shown, so you can check the answer instead of taking it on trust.",
 	},
 
 	calculator: {
@@ -29,11 +29,11 @@ export const en: Dictionary = {
 		tabLog: "Logarithmic",
 		tabBilinear: "Double (bilinear)",
 
-		linearIntro: "Linear interpolation calculator: enter two known points, then the x value you want to estimate y for.",
+		linearIntro: "Enter two known points, then the x value you want to estimate y for.",
 		logIntro:
-			"Logarithmic interpolation calculator for data that follows a logarithmic curve along x. All x values must be greater than zero.",
+			"For data where y changes linearly with ln(x), such as values spanning several orders of magnitude. All x values must be greater than zero.",
 		bilinearIntro:
-			"Double (bilinear) interpolation calculator: interpolate across a 2D grid using four known values at the corners of a rectangle (e.g. steam tables).",
+			"Estimate a value inside a 2D table from the four known values at the corners of the surrounding cell (for example, a steam table).",
 
 		labelX1: "x₁",
 		labelY1: "y₁",
@@ -109,7 +109,7 @@ export const en: Dictionary = {
 
 	explanation: {
 		linear: {
-			title: "Linear interpolation calculator formula",
+			title: "Linear interpolation formula",
 			intro:
 				"Assumes a straight line between two points. Given (x₁, y₁) and (x₂, y₂), the y value at any x is:",
 			formula: "y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁)",
@@ -117,49 +117,59 @@ export const en: Dictionary = {
 				"Good for evenly-spaced table lookups, unit conversions, and any relationship that's approximately straight over the range you care about.",
 		},
 		log: {
-			title: "Logarithmic interpolation calculator formula",
+			title: "Logarithmic interpolation formula",
 			intro:
 				"Assumes y varies linearly with ln(x) rather than x itself — useful when x spans several orders of magnitude.",
 			formula: "y = y₁ + (ln x − ln x₁) × (y₂ − y₁) / (ln x₂ − ln x₁)",
 			note: "Common for pH, decibels, Richter magnitude, and other logarithmically-scaled measurements.",
 		},
 		bilinear: {
-			title: "Double (bilinear) interpolation calculator formula",
+			title: "Double (bilinear) interpolation formula",
 			intro:
-				"Interpolates across two dimensions using four known corner values — interpolate in x twice, then interpolate that result in y.",
-			formula: "f(x,y) via f(x,y₁), f(x,y₂), then blend by y",
+				"First interpolate in x along both known rows to get R₁ (at y₁) and R₂ (at y₂), then interpolate between those two results in y:",
+			formula: "f(x,y) = R₁ + (y − y₁) × (R₂ − R₁) / (y₂ − y₁)",
 			note: "The standard method for reading steam tables and other 2D engineering reference tables.",
 		},
 	},
 
 	seoContent: {
-		heading: "Everything you need to calculate interpolation online",
+		heading: "How interpolation works, with worked examples",
 		intro:
-			"This interpolation calculator is a free, browser-based interpolation solver built for students, engineers, and data analysts who need to estimate a value between two known data points without setting up a spreadsheet formula. Unlike a typical linear interpolation online tool that only handles a single straight-line case, this interpolation formula calculator covers three distinct methods — linear, logarithmic, and double (bilinear) — and shows the full working behind every result, so you can verify the math instead of just trusting a black-box answer.",
+			"Interpolation estimates an unknown value that lies between values you already know. It is how you read between the rows of an engineering table, fill a gap in measured data, or convert a reading on a scale that is only listed at certain points. The right method depends on how your data behaves between those known points. The sections below explain the three methods this calculator supports, walk through an example of each that you can reproduce in the calculator above, and cover the most common sources of error.",
 		sections: [
 			{
-				heading: "A linear interpolation calculator for straight-line estimates",
+				heading: "Linear interpolation: worked example",
 				body: [
-					"The linear interpolation calculator mode is the most common way to calculate interpolation. Give it two known points — (x₁, y₁) and (x₂, y₂) — plus the x value you want to estimate, and it applies the standard linear interpolation formula: y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁). This is the same approach used for reading between rows in an engineering table, converting units on a non-standard scale, or filling in a missing data point in a roughly linear dataset. Because everything runs client-side, this works as a linear interpolation online tool with no installation, no account, and no data leaving your browser.",
+					"Linear interpolation assumes the data follows a straight line between two known points (x₁, y₁) and (x₂, y₂). The formula is y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁): it finds the slope between the two points, then moves along that slope from x₁ to your target x.",
+					"Example: a table lists y = 12.4 at x = 20 and y = 18.9 at x = 30, and you need the value at x = 24. The slope is (18.9 − 12.4) / (30 − 20) = 0.65 per unit of x. The target is 4 units past x₁, so y = 12.4 + 4 × 0.65 = 15.0. Enter x₁ = 20, y₁ = 12.4, x₂ = 30, y₂ = 18.9 and x = 24 in the Linear tab to see the same steps.",
 				],
 			},
 			{
-				heading: "Logarithmic interpolation calculator for exponential-style data",
+				heading: "Logarithmic interpolation: worked example",
 				body: [
-					"Not every dataset is a straight line. When a quantity changes multiplicatively rather than additively — pH, decibels, earthquake magnitude, or any measurement that spans several orders of magnitude — a plain linear interpolation calculator will give you a skewed answer. The logarithmic interpolation calculator mode instead assumes y varies linearly with ln(x), which fits this kind of curve far more accurately. Enter your two known x/y pairs (with x values greater than zero) and the target x, and the interpolation solver walks through taking natural logs, computing the log-space slope, and applying it to return a realistic estimate.",
+					"Some quantities change by a constant amount each time x is multiplied by a fixed factor, rather than each time x increases by a fixed amount. Sound level in decibels, pH, and earthquake magnitude all behave this way. For this kind of data, y is a straight line against ln(x), so logarithmic interpolation applies the linear formula to ln(x) instead of x.",
+					"Example: a sound intensity of 1 µW/m² corresponds to 60 dB and 100 µW/m² corresponds to 80 dB. What is the level at 10 µW/m²? Logarithmic interpolation gives 60 + (ln 10 − ln 1) × (80 − 60) / (ln 100 − ln 1) = 70 dB, which is exactly right, because 10 is one factor of ten above 1 and one factor of ten below 100. Plain linear interpolation would return about 61.8 dB, because it treats 10 as being only 9% of the way from 1 to 100. Using the wrong method on logarithmic data can produce errors this large.",
 				],
 			},
 			{
-				heading: "Double (bilinear) interpolation calculator for 2D grids",
+				heading: "Double (bilinear) interpolation: worked example",
 				body: [
-					"Some problems can't be solved with a single pair of points at all. Steam tables, air property charts, and other two-dimensional engineering references list a value at the intersection of a row and a column — meaning you often need to estimate a point that falls between four surrounding grid values. That's exactly what the double interpolation calculator (also called a bilinear interpolation calculator) is built for. Supply the four corner values Q₁₁, Q₁₂, Q₂₁, and Q₂₂ along with your target x and y, and the tool interpolates in x twice — once at y₁ and once at y₂ — then blends those two results in y to produce the final estimate, with every intermediate step shown.",
+					"Two-dimensional tables, such as superheated steam tables, list a value for every combination of a row variable and a column variable. When both of your inputs fall between listed values, you need the four surrounding table entries: Q₁₁ = f(x₁, y₁), Q₂₁ = f(x₂, y₁), Q₁₂ = f(x₁, y₂) and Q₂₂ = f(x₂, y₂). Bilinear interpolation first interpolates in x along each of the two rows, then interpolates between those two results in y.",
+					"Example: with x₁ = 10, x₂ = 20, y₁ = 100 and y₂ = 200, the table gives Q₁₁ = 50, Q₂₁ = 70, Q₁₂ = 60 and Q₂₂ = 90. To estimate f(14, 130), first interpolate along y₁: R₁ = 50 + (14 − 10) × (70 − 50) / 10 = 58. Then along y₂: R₂ = 60 + 0.4 × (90 − 60) = 72. Finally interpolate in y: f = 58 + (130 − 100) × (72 − 58) / 100 = 62.2. Interpolating in y first and then x gives the same 62.2.",
 				],
 			},
 			{
-				heading: "Why use this interpolation formula calculator",
+				heading: "Choosing a method",
 				body: [
-					"Most calculators that claim to calculate interpolation only return a final number, which makes it hard to catch a typo in your inputs or understand why an answer looks off. This interpolation calculator online tool shows every substitution, slope, and intermediate result, and it automatically flags when your target value falls outside your known data range — labeling that result as extrapolated rather than interpolated, since extrapolated estimates carry more uncertainty. It supports all three interpolation methods in one place, so you don't need to bounce between separate linear interpolation, logarithmic interpolation, and bilinear interpolation solvers for different parts of the same project.",
-					"Whether you're a student checking homework, an engineer reading a steam table, or anyone who just needs to calculate interpolation for a one-off estimate, this tool is free, requires no sign-up, and works entirely in your browser — nothing is uploaded or stored on a server.",
+					"Use linear interpolation when the known points are close together and the data looks roughly straight between them. This covers most table lookups. Use logarithmic interpolation when the x values span a wide range (for example 1 to 1,000) and the data plots as a straight line on a logarithmic x-axis. Use double interpolation whenever the value depends on two inputs at once and you are reading from a grid.",
+					"If you are unsure, plot a few neighbouring table values. Points that lie on a straight line on ordinary axes suit linear interpolation. Points that only straighten out when x is plotted on a log scale suit logarithmic interpolation.",
+				],
+			},
+			{
+				heading: "Accuracy and common mistakes",
+				body: [
+					"Linear interpolation is exact only when the data really is a straight line. For a curved function f, the error is at most (x₂ − x₁)² / 8 multiplied by the largest value of |f″| between the two points. In practice, this means halving the spacing between your known points cuts the worst-case error to about a quarter. When a table offers finer rows near your target, use them.",
+					"The most frequent mistakes are mixing up which value belongs to x₁ and which to x₂, mixing units (for example kPa in one row and bar in another), and reading Q₁₂ and Q₂₁ from the wrong cells of a 2D table. Estimating outside the known range is also risky. The calculator labels those results as extrapolated because the assumed straight line or curve may not continue beyond your data.",
 				],
 			},
 		],
@@ -169,56 +179,48 @@ export const en: Dictionary = {
 		heading: "Frequently asked questions",
 		items: [
 			{
-				q: "What is an interpolation calculator?",
-				a: "An interpolation calculator is a tool that estimates an unknown value that falls between two (or more) known data points. Instead of manually applying the interpolation formula, you enter your known points and the target x (or x and y) value, and the calculator returns the estimated result — this tool also shows the full step-by-step working for linear, logarithmic, and double (bilinear) interpolation.",
-			},
-			{
-				q: "How does a linear interpolation calculator work?",
-				a: "A linear interpolation calculator assumes a straight line connects your two known points, (x₁, y₁) and (x₂, y₂). You enter those two points plus the x value you want to estimate y for, and the calculator applies the linear interpolation formula to find where that x falls proportionally along the line between y₁ and y₂.",
+				q: "What is interpolation?",
+				a: "Interpolation is estimating an unknown value that lies between two or more known data points by assuming a simple shape, such as a straight line, connects them. It is commonly used to read values between the listed rows of reference tables and to fill gaps in measured data.",
 			},
 			{
 				q: "What is the linear interpolation formula?",
-				a: "The linear interpolation formula is y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁). It calculates the slope between two known points (x₁, y₁) and (x₂, y₂), then applies that slope to the offset between x and x₁ to estimate y.",
+				a: "y = y₁ + (x − x₁) × (y₂ − y₁) / (x₂ − x₁). The fraction (y₂ − y₁) / (x₂ − x₁) is the slope of the line through the two known points, and multiplying it by (x − x₁) gives how far y has moved from y₁ by the time you reach x.",
 			},
 			{
-				q: "When should I use linear interpolation?",
-				a: "Use linear interpolation when your data is approximately a straight line over the range you care about — common for evenly-spaced table lookups, unit conversions, and estimating values between two closely-spaced measurements. It's the simplest and most widely used interpolation method, but it can be inaccurate if the true relationship curves significantly between your two known points.",
+				q: "When is linear interpolation accurate enough?",
+				a: "When the known points are close together and the data is close to a straight line between them. For a curved relationship the error grows with the square of the spacing between points, so using the nearest available table rows usually matters more than the choice of method.",
 			},
 			{
-				q: "What is logarithmic interpolation?",
-				a: "Logarithmic interpolation is a method that assumes y varies linearly with ln(x) rather than with x itself. It's used when data spans several orders of magnitude or changes multiplicatively rather than additively, since a straight-line (linear) fit would poorly approximate that kind of curve.",
+				q: "When should I use logarithmic interpolation instead of linear?",
+				a: "Use it when y changes by roughly the same amount each time x is multiplied by a constant factor — for example decibels versus sound intensity, or pH versus hydrogen-ion concentration. If your data forms a straight line when x is plotted on a logarithmic axis, logarithmic interpolation will fit it better than linear interpolation.",
 			},
 			{
-				q: "When should I use logarithmic interpolation instead of linear interpolation?",
-				a: "Use logarithmic interpolation when your data grows or decays multiplicatively rather than additively — common in pH scales, decibel/sound intensity, earthquake magnitude, and some financial or biological growth data. If plotting your data on a log-x scale looks like a straight line, logarithmic interpolation will usually fit better than linear.",
-			},
-			{
-				q: "What is a double (bilinear) interpolation calculator?",
-				a: "A double (bilinear) interpolation calculator estimates a value from a 2D grid of known points instead of just two. You provide four known corner values — Q₁₁, Q₁₂, Q₂₁, and Q₂₂ — along with your target x and y, and the calculator interpolates across both dimensions to return the estimated result.",
+				q: "Why must x be greater than zero for logarithmic interpolation?",
+				a: "Logarithmic interpolation works with ln(x), and the natural logarithm is only defined for positive numbers. If your x values include zero or negatives, the data cannot be on a logarithmic scale in x, and linear interpolation is the appropriate method.",
 			},
 			{
 				q: "How does double (bilinear) interpolation work?",
-				a: "Double (bilinear) interpolation works by interpolating twice in one direction and once in the other. First it interpolates in x at y₁ and again at y₂ to get two intermediate results, then it interpolates those two results in y to produce the final estimate — effectively blending all four corner values by how close the target point is to each one.",
+				a: "It uses the four known values at the corners of the table cell that contains your target point. It interpolates in x along the lower row (giving R₁) and the upper row (giving R₂), then interpolates between R₁ and R₂ in y. The result is a weighted average of the four corners, with nearer corners weighted more heavily.",
 			},
 			{
-				q: "What is double interpolation used for?",
-				a: "Double interpolation is used for reading a value from a 2D grid of known points — for example, reading a property (like enthalpy) from a steam table where both pressure and temperature fall between listed rows and columns. It works by interpolating twice: once across x, then once across y.",
-			},
-			{
-				q: "Can the interpolation calculator show step-by-step results?",
-				a: "Yes. This calculator shows every step of the calculation — substituting your values, computing the slope (or log-slope, for logarithmic interpolation), and applying it to reach the final result — so you can verify the math yourself instead of just seeing a final number.",
+				q: "Does it matter whether I interpolate in x or y first?",
+				a: "No. For bilinear interpolation, doing x first and then y gives exactly the same result as doing y first and then x. The worked example above gives 62.2 in either order.",
 			},
 			{
 				q: "What is the difference between interpolation and extrapolation?",
-				a: "Interpolation estimates a value that falls between two known data points. Extrapolation estimates a value outside that range. Extrapolation uses the same formula but is inherently less reliable, since you're assuming the trend continues beyond the data you actually have.",
+				a: "Interpolation estimates a value inside the range of your known points; extrapolation estimates one outside it. The formula is the same, so the calculator still returns a number, but it labels the result as extrapolated because there is no data confirming the trend continues past your known points.",
 			},
 			{
-				q: "Why does the calculator say \u201cextrapolated\u201d instead of giving an error?",
-				a: "A target x outside your two known points is still mathematically computable — the line or curve just gets extended past the data you gave it. The label is a warning, not an error: the math is fine, but the confidence in the result is lower the further you go from your known range.",
+				q: "Why do I get an error when x₁ equals x₂?",
+				a: "Every formula here divides by (x₂ − x₁), or by (ln x₂ − ln x₁) in logarithmic mode. When the two x values are equal this is division by zero, and two points at the same x cannot define a line. The same applies to y₁ and y₂ in double interpolation.",
 			},
 			{
-				q: "Why do I get an error when x1 equals x2?",
-				a: "The interpolation formula divides by (x2 − x1). If x1 and x2 are the same, that's division by zero, which is mathematically undefined. You need two distinct x values to define a line (or curve) to interpolate along.",
+				q: "How precise are the results?",
+				a: "Calculations use standard double-precision floating-point arithmetic. For readability, the intermediate values in the steps are rounded to six decimal places, and the final result is shown to 12 significant digits. This rounding only affects what is displayed; each step is computed from the unrounded values.",
+			},
+			{
+				q: "Are the numbers I enter sent or stored anywhere?",
+				a: "No. All calculations run in your browser, and your inputs are never sent to a server. Refreshing or closing the page clears them.",
 			},
 		],
 	},
@@ -237,77 +239,97 @@ export const en: Dictionary = {
 		lastUpdated: "Last updated: {date}",
 
 		about: {
-			metaTitle: "About Us – Interpolation Calculator Online",
+			metaTitle: "About – Interpolation Calculator",
 			metaDescription:
-				"Learn about Interpolation Calculator Online, a free browser-based tool for linear, logarithmic, and bilinear interpolation with step-by-step results.",
-			heading: "About Interpolation Calculator Online",
+				"Why this interpolation calculator exists, how its results are checked, and who maintains it.",
+			heading: "About Interpolation Calculator",
 			intro:
-				"Interpolation Calculator Online is a free, browser-based tool built to make estimating values between known data points fast, transparent, and accurate — without needing a spreadsheet or a textbook formula in front of you.",
+				"Interpolation Calculator is an independent project that estimates values between known data points using linear, logarithmic, and double (bilinear) interpolation. It shows every step of the calculation, so you can check the answer instead of taking it on trust.",
 			sections: [
 				{
-					heading: "Why we built this",
+					heading: "Why this site exists",
 					body: [
-						"Interpolation shows up everywhere: reading engineering tables, converting between measurement scales, filling in missing data points, and estimating values from steam tables or reference charts. Most calculators online only return a final number, which makes it hard to catch a mistake or understand how the answer was derived.",
-						"We built this calculator to show the full working — every substitution, slope calculation, and intermediate result — so you can verify the math yourself, whether you're a student checking homework or an engineer double-checking a table lookup.",
+						"Interpolation comes up constantly in coursework and engineering practice: reading steam and property tables, working with calibration charts, or filling a gap in measured data. The arithmetic is simple, but it is also easy to get wrong by hand. Common slips include swapping x₁ and x₂, reading the wrong cell of a 2D table, or applying a straight-line estimate to data that is logarithmic.",
+						"Most online tools only return a final number, which leaves no way to spot an input mistake. This calculator shows the formula, your substituted values, the slope, and every intermediate result, so each step can be compared with a textbook or hand calculation.",
 					],
 				},
 				{
-					heading: "What this tool does",
+					heading: "How results are checked",
 					body: [
-						"This site provides three interpolation methods in one place: linear interpolation for straight-line estimates, logarithmic interpolation for data that spans several orders of magnitude, and double (bilinear) interpolation for two-dimensional grids like steam tables. Every calculation runs entirely in your browser — nothing you enter is uploaded to a server or stored anywhere.",
+						"The three methods use the standard textbook formulas described on the home page. Results have been checked against hand calculations, including the worked examples on the home page. The calculator also handles edge cases explicitly, returning a clear message instead of a meaningless number when x values are equal or when a logarithmic input is zero or negative. When a target falls outside the range, the result is labelled as extrapolated rather than shown without comment.",
 					],
 				},
 				{
-					heading: "Who it's for",
+					heading: "Privacy by design",
 					body: [
-						"Students, engineers, scientists, and anyone who occasionally needs to calculate an interpolated value without setting up a spreadsheet. The tool is free, requires no account, and works on both desktop and mobile.",
+						"All calculations run in your browser. The numbers you enter are never sent to a server, so the calculator also works on confidential or unpublished data. The Privacy Policy explains what the site does collect, such as standard analytics and advertising cookies.",
+					],
+				},
+				{
+					heading: "Feedback",
+					body: [
+						"If you find a result that looks wrong, a confusing explanation, or a method you would like added, please get in touch through the Contact page. Reports that include the exact inputs you used are the quickest to investigate and fix.",
 					],
 				},
 			],
 		},
 
 		privacy: {
-			metaTitle: "Privacy Policy – Interpolation Calculator Online",
+			metaTitle: "Privacy Policy – Interpolation Calculator",
 			metaDescription:
-				"Read the privacy policy for Interpolation Calculator Online. We don't collect or store the numbers you enter — all calculations run locally in your browser.",
+				"What information interpcalc.com collects, how Google Analytics and Google AdSense cookies are used, and how to opt out. Calculator inputs never leave your browser.",
 			heading: "Privacy Policy",
 			intro:
-				"This Privacy Policy explains what information Interpolation Calculator Online (\"we\", \"this site\") collects when you use this website, and how it is used.",
+				"This Privacy Policy explains what information interpcalc.com (\"this site\", \"we\") collects when you visit, how it is used, and the choices you have.",
 			sections: [
 				{
 					heading: "Calculator inputs",
 					body: [
-						"The numbers you enter into the interpolation calculator are processed entirely within your browser using client-side JavaScript. They are never transmitted to our servers, stored in a database, or shared with any third party. Closing or refreshing the page clears everything you entered.",
+						"The numbers you enter into the calculator are processed entirely within your browser using client-side JavaScript. They are never sent to our servers, stored in a database, or shared with anyone. Refreshing or closing the page clears them.",
 					],
 				},
 				{
-					heading: "Analytics and cookies",
+					heading: "Analytics",
 					body: [
-						"This site may use privacy-respecting analytics tools to understand aggregate traffic patterns (such as which pages are visited and which country visitors come from), in order to improve the site. These tools do not track your calculator inputs and do not build an individual profile of you. If cookies are used for analytics or advertising, your browser will typically allow you to block or clear them at any time through its settings.",
+						"This site uses Google Analytics to understand aggregate usage, such as which pages are visited, the approximate country visitors come from, and the type of device and browser used. Google Analytics uses cookies and collects standard technical data, such as your IP address, to produce these reports. It does not receive the values you enter into the calculator. You can prevent Google Analytics from collecting data by installing the Google Analytics Opt-out Browser Add-on (tools.google.com/dlpage/gaoptout).",
 					],
 				},
 				{
-					heading: "Third-party services",
+					heading: "Advertising",
 					body: [
-						"We may use third-party services (such as hosting providers, content delivery networks, or analytics providers) to operate this site. These providers may collect standard technical information, like your IP address and browser type, as part of delivering the website to you. We do not control the privacy practices of third-party services and encourage you to review their own privacy policies.",
+						"This site uses Google AdSense to display advertisements. Third-party vendors, including Google, use cookies to serve ads based on your previous visits to this website and other websites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your visits to this and other sites on the internet.",
+						"You can opt out of personalised advertising by visiting Google Ads Settings (adssettings.google.com). You can also opt out of some third-party vendors' use of cookies for personalised advertising at www.aboutads.info. For more information about how Google uses data, see policies.google.com/technologies/partner-sites.",
+						"Visitors in the European Economic Area, the United Kingdom, and Switzerland may be asked for consent before personalised advertising cookies are set, and can change that choice at any time.",
+					],
+				},
+				{
+					heading: "Cookies and local storage",
+					body: [
+						"Apart from the analytics and advertising cookies described above, the site stores a single preference in your browser's local storage: your light or dark theme choice. You can block or delete cookies and local storage at any time through your browser settings. The calculator will continue to work.",
+					],
+				},
+				{
+					heading: "Hosting",
+					body: [
+						"The site is hosted on Cloudflare, which processes standard request data (such as IP address and browser type) to deliver pages and protect the site against abuse.",
 					],
 				},
 				{
 					heading: "Children's privacy",
 					body: [
-						"This site does not knowingly collect personal information from children. The calculator itself does not require or request any personal information to function.",
+						"This site is not directed at children under 13 and does not knowingly collect personal information from them. The calculator does not ask for any personal information.",
 					],
 				},
 				{
 					heading: "Changes to this policy",
 					body: [
-						"We may update this Privacy Policy from time to time to reflect changes to the site or applicable law. Any changes will be posted on this page.",
+						"We may update this Privacy Policy when the site or applicable law changes. Updates will be posted on this page.",
 					],
 				},
 				{
-					heading: "Contact us",
+					heading: "Contact",
 					body: [
-						"If you have questions about this Privacy Policy, please visit our Contact page.",
+						"If you have any questions about this Privacy Policy, email code.sudeepto@gmail.com.",
 					],
 				},
 			],
@@ -368,7 +390,7 @@ export const en: Dictionary = {
 			intro:
 				"Have a question, found a bug, or want to suggest a feature? We'd like to hear from you. Reach out using the email address below.",
 			emailLabel: "Email:",
-			email: "support@interpcalc.com",
+			email: "code.sudeepto@gmail.com",
 			sections: [
 				{
 					heading: "Feedback and bug reports",

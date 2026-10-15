@@ -24,7 +24,7 @@ const c = dict.calculator;
 				aria-controls="panel-linear"
 				id="tab-linear"
 				data-mode="linear"
-				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium"
+				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium active:scale-95"
 			>
 				{c.tabLinear}
 			</button>
@@ -35,7 +35,7 @@ const c = dict.calculator;
 				aria-controls="panel-log"
 				id="tab-log"
 				data-mode="log"
-				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium"
+				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium active:scale-95"
 			>
 				{c.tabLog}
 			</button>
@@ -46,7 +46,7 @@ const c = dict.calculator;
 				aria-controls="panel-bilinear"
 				id="tab-bilinear"
 				data-mode="bilinear"
-				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium"
+				class="mode-tab interactive shrink-0 rounded-md px-3.5 py-2 text-sm font-medium active:scale-95"
 			>
 				{c.tabBilinear}
 			</button>
@@ -65,7 +65,6 @@ const c = dict.calculator;
 						<Field id="lin-y2" label={c.labelY2} placeholder="20" />
 					</div>
 					<Field id="lin-x" label={c.labelXTarget} placeholder="250" highlight />
-					<p id="lin-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
 				</div>
 
 				<!-- Log panel -->
@@ -78,7 +77,6 @@ const c = dict.calculator;
 						<Field id="log-y2" label={c.labelY2} placeholder="3" />
 					</div>
 					<Field id="log-x" label={c.labelXTarget} placeholder="100" highlight />
-					<p id="log-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
 				</div>
 
 				<!-- Bilinear panel -->
@@ -100,7 +98,6 @@ const c = dict.calculator;
 						<Field id="bi-x" label={c.labelXTarget} placeholder="3" highlight />
 						<Field id="bi-y" label={c.labelYTarget} placeholder="15" highlight />
 					</div>
-					<p id="bilinear-error" class="hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></p>
 				</div>
 			</div>
 
@@ -111,6 +108,7 @@ const c = dict.calculator;
 					<div id="result-empty" class="mt-3 text-sm text-mute">
 						{c.resultEmpty}
 					</div>
+					<div id="result-error" class="mt-3 hidden rounded-md border border-error/20 bg-error-soft px-3.5 py-2.5 text-sm text-error-deep" role="alert"></div>
 					<div id="result-content" class="hidden">
 						<div class="mt-2 flex flex-wrap items-baseline gap-2">
 							<span id="result-value" class="text-2xl font-semibold tracking-tight text-ink [font-variant-numeric:tabular-nums] break-all sm:text-3xl"></span>
@@ -139,6 +137,34 @@ const c = dict.calculator;
 		background-color: var(--color-hairline-soft);
 		color: var(--color-ink);
 	}
+
+	/* Replayed via JS (class removed + re-added) whenever a panel or result swaps in. */
+	.fade-in-up {
+		animation: fade-in-up 0.25s var(--ease-standard);
+	}
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(6px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Replayed on every recalculation so the result reads as "live" rather than static. */
+	.value-pulse {
+		animation: value-pulse 0.18s var(--ease-standard);
+	}
+	@keyframes value-pulse {
+		from {
+			opacity: 0.45;
+		}
+		to {
+			opacity: 1;
+		}
+	}
 </style>
 
 <script>
@@ -154,6 +180,7 @@ const c = dict.calculator;
 	};
 
 	const resultEmpty = document.getElementById("result-empty")!;
+	const resultError = document.getElementById("result-error")!;
 	const resultContent = document.getElementById("result-content")!;
 	const resultValue = document.getElementById("result-value")!;
 	const resultBadge = document.getElementById("result-badge")!;
@@ -189,6 +216,14 @@ const c = dict.calculator;
 
 	let currentMode: Mode = "linear";
 
+	// Removing then re-adding an animation class doesn't restart it unless the
+	// browser reflows in between — this forces that reflow so the animation replays.
+	function replay(el: HTMLElement, cls: string) {
+		el.classList.remove(cls);
+		void el.offsetWidth;
+		el.classList.add(cls);
+	}
+
 	function setMode(mode: Mode) {
 		currentMode = mode;
 		tabs.forEach((tab) => {
@@ -196,7 +231,10 @@ const c = dict.calculator;
 			tab.setAttribute("aria-selected", String(isActive));
 		});
 		(Object.keys(panels) as Mode[]).forEach((key) => {
-			panels[key].classList.toggle("hidden", key !== mode);
+			const panel = panels[key];
+			const show = key === mode;
+			panel.classList.toggle("hidden", !show);
+			if (show) replay(panel, "fade-in-up");
 		});
 		clearResult();
 		compute();
@@ -219,6 +257,7 @@ const c = dict.calculator;
 
 	function clearResult() {
 		resultContent.classList.add("hidden");
+		resultError.classList.add("hidden");
 		resultEmpty.classList.remove("hidden");
 	}
 
@@ -228,29 +267,26 @@ const c = dict.calculator;
 		return Number(el.value);
 	}
 
-	function showError(mode: Mode, message: string | null) {
-		const errorId = mode === "bilinear" ? "bilinear-error" : `${mode}-error`;
-		const el = document.getElementById(errorId);
-		if (!el) return;
-		if (message) {
-			el.textContent = message;
-			el.classList.remove("hidden");
-		} else {
-			el.classList.add("hidden");
-		}
-	}
-
 	function renderResult(res: CalcResult) {
 		if (!res.ok) {
+			const wasHidden = resultError.classList.contains("hidden");
 			resultContent.classList.add("hidden");
-			resultEmpty.classList.remove("hidden");
+			resultEmpty.classList.add("hidden");
+			resultError.textContent = res.error;
+			resultError.classList.remove("hidden");
+			if (wasHidden) replay(resultError, "fade-in-up");
 			return;
 		}
 
+		const wasHidden = resultContent.classList.contains("hidden");
 		resultEmpty.classList.add("hidden");
+		resultError.classList.add("hidden");
 		resultContent.classList.remove("hidden");
+		if (wasHidden) replay(resultContent, "fade-in-up");
 
-		resultValue.textContent = `y = ${res.result}`;
+		// Trim floating-point noise (e.g. 0.30000000000000004) from the headline value.
+		resultValue.textContent = `y = ${Number(res.result.toPrecision(12))}`;
+		replay(resultValue, "value-pulse");
 
 		if (res.position === "interpolated") {
 			resultBadge.textContent = c.resultInterpolated;
@@ -259,6 +295,7 @@ const c = dict.calculator;
 			resultBadge.textContent = c.resultExtrapolated;
 			resultBadge.className = "rounded-full px-2.5 py-0.5 text-xs font-medium bg-warning-soft text-warning-deep";
 		}
+		replay(resultBadge, "value-pulse");
 
 		resultSteps.innerHTML = "";
 		res.steps.forEach((step, i) => {
@@ -287,34 +324,28 @@ const c = dict.calculator;
 		if (currentMode === "linear") {
 			const x1 = num("lin-x1"), y1 = num("lin-y1"), x2 = num("lin-x2"), y2 = num("lin-y2"), x = num("lin-x");
 			if ([x1, y1, x2, y2, x].some((v) => Number.isNaN(v))) {
-				showError("linear", null);
 				clearResult();
 				return;
 			}
 			const res = linearInterpolate(x1, y1, x2, y2, x, linearMessages);
-			showError("linear", res.ok ? null : res.error);
 			renderResult(res);
 		} else if (currentMode === "log") {
 			const x1 = num("log-x1"), y1 = num("log-y1"), x2 = num("log-x2"), y2 = num("log-y2"), x = num("log-x");
 			if ([x1, y1, x2, y2, x].some((v) => Number.isNaN(v))) {
-				showError("log", null);
 				clearResult();
 				return;
 			}
 			const res = logInterpolate(x1, y1, x2, y2, x, logMessages);
-			showError("log", res.ok ? null : res.error);
 			renderResult(res);
 		} else {
 			const x1 = num("bi-x1"), x2 = num("bi-x2"), y1 = num("bi-y1"), y2 = num("bi-y2");
 			const q11 = num("bi-q11"), q12 = num("bi-q12"), q21 = num("bi-q21"), q22 = num("bi-q22");
 			const x = num("bi-x"), y = num("bi-y");
 			if ([x1, x2, y1, y2, q11, q12, q21, q22, x, y].some((v) => Number.isNaN(v))) {
-				showError("bilinear", null);
 				clearResult();
 				return;
 			}
 			const res = bilinearInterpolate(x1, x2, y1, y2, q11, q12, q21, q22, x, y, bilinearMessages);
-			showError("bilinear", res.ok ? null : res.error);
 			renderResult(res);
 		}
 	}
