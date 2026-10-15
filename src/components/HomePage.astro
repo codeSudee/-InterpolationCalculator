@@ -62,6 +62,29 @@ const dict = getDictionary(locale);
 		>
 			{dict.explanation.linear.formula}
 		</p>
+
+		<!-- Centerpiece sketch: fills the large empty area to the right of the hero text
+		     on wide screens, where there's otherwise nothing. -->
+		<svg
+			viewBox="0 0 120 120"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			class="pointer-events-none absolute right-[16%] top-1/2 hidden -z-10 size-56 -translate-y-1/2 select-none text-ink/[0.09] xl:block"
+			style="transform: translateY(-50%) rotate(-4deg);"
+			aria-hidden="true"
+		>
+			<path d="M14 14v92M14 106h92"></path>
+			<path d="M20 95C40 85 55 40 100 20"></path>
+			<path d="M30 88 45 70" stroke-dasharray="2.5 3.5"></path>
+			<path d="M45 70 60 55" stroke-dasharray="2.5 3.5"></path>
+			<circle cx="30" cy="88" r="3" fill="currentColor" stroke="none"></circle>
+			<circle cx="60" cy="55" r="3" fill="currentColor" stroke="none"></circle>
+			<circle cx="90" cy="25" r="3" fill="currentColor" stroke="none"></circle>
+			<circle cx="45" cy="70" r="3"></circle>
+		</svg>
 		<div class="container-page relative py-20 sm:py-28">
 			<p class="mono-eyebrow text-mute">{dict.hero.eyebrow}</p>
 			<h1 class="mt-5 max-w-2xl text-4xl font-semibold tracking-tight text-ink text-balance sm:text-5xl sm:leading-[1.05]" style="letter-spacing: var(--tracking-display);">
