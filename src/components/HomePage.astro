@@ -16,7 +16,7 @@ const dict = getDictionary(locale);
 	<!-- Hero -->
 	<section class="relative isolate overflow-hidden border-b border-hairline">
 		<div
-			class="pointer-events-none absolute inset-0 -z-10 opacity-20 blur-3xl"
+			class="pointer-events-none absolute inset-0 -z-10 opacity-[0.14] blur-3xl"
 			style="background: radial-gradient(600px circle at 20% 10%, var(--color-cyan), transparent 60%), radial-gradient(500px circle at 80% 0%, var(--color-violet), transparent 55%), radial-gradient(500px circle at 50% 30%, var(--color-pink), transparent 60%);"
 			aria-hidden="true"
 		>
@@ -63,27 +63,47 @@ const dict = getDictionary(locale);
 			{dict.explanation.linear.formula}
 		</p>
 
-		<!-- Centerpiece sketch: fills the large empty area to the right of the hero text
-		     on wide screens, where there's otherwise nothing. -->
+		<!-- Centerpiece diagram: linear interpolation in one picture. Two known points (x₁, y₁) and
+		     (x₂, y₂), and the unknown y read off the line at x. Shown on wide screens only, in the
+		     open space right of the hero text. Decorative, so hidden from assistive tech. -->
 		<svg
-			viewBox="0 0 120 120"
+			viewBox="0 0 160 120"
 			fill="none"
 			stroke="currentColor"
-			stroke-width="1.5"
+			stroke-width="1.25"
 			stroke-linecap="round"
 			stroke-linejoin="round"
-			class="pointer-events-none absolute right-[16%] top-1/2 hidden -z-10 size-56 -translate-y-1/2 select-none text-ink/[0.09] xl:block"
-			style="transform: translateY(-50%) rotate(-4deg);"
+			class="pointer-events-none absolute right-[10%] top-1/2 hidden -z-10 w-[24rem] -translate-y-1/2 select-none text-ink/[0.17] xl:block"
 			aria-hidden="true"
 		>
-			<path d="M14 14v92M14 106h92"></path>
-			<path d="M20 95C40 85 55 40 100 20"></path>
-			<path d="M30 88 45 70" stroke-dasharray="2.5 3.5"></path>
-			<path d="M45 70 60 55" stroke-dasharray="2.5 3.5"></path>
-			<circle cx="30" cy="88" r="3" fill="currentColor" stroke="none"></circle>
-			<circle cx="60" cy="55" r="3" fill="currentColor" stroke="none"></circle>
-			<circle cx="90" cy="25" r="3" fill="currentColor" stroke="none"></circle>
-			<circle cx="45" cy="70" r="3"></circle>
+			<!-- grid -->
+			<g stroke-width="0.5" opacity="0.5">
+				<path d="M18 28H150M18 56H150M18 84H150"></path>
+				<path d="M52 12V100M86 12V100M120 12V100"></path>
+			</g>
+			<!-- axes with arrowheads -->
+			<path d="M18 100V10M18 100H152"></path>
+			<path d="M14.5 14 18 9l3.5 5M148 96.5l5 3.5-5 3.5"></path>
+			<!-- guides from the unknown point to both axes -->
+			<path d="M80 100V57M18 57H80" stroke-dasharray="2.5 3"></path>
+			<!-- the straight line through the two known points -->
+			<path d="M36 82 124 32" stroke-width="1.75"></path>
+			<!-- known points -->
+			<circle cx="36" cy="82" r="3.2" fill="currentColor" stroke="none"></circle>
+			<circle cx="124" cy="32" r="3.2" fill="currentColor" stroke="none"></circle>
+			<!-- unknown point: hollow ring with a soft pulse -->
+			<circle cx="80" cy="57" r="3.2" fill="none" stroke-width="1.5"></circle>
+			<circle cx="80" cy="57" r="3.2" fill="currentColor" stroke="none" class="origin-center animate-ping [transform-box:fill-box]"></circle>
+			<!-- labels -->
+			<g fill="currentColor" stroke="none" font-family="var(--font-mono, ui-monospace, monospace)" font-size="6.5">
+				<text x="36" y="110" text-anchor="middle">x₁</text>
+				<text x="80" y="110" text-anchor="middle">x</text>
+				<text x="124" y="110" text-anchor="middle">x₂</text>
+				<text x="13" y="84.5" text-anchor="end">y₁</text>
+				<text x="13" y="59.5" text-anchor="end">y</text>
+				<text x="13" y="34.5" text-anchor="end">y₂</text>
+				<text x="88" y="68">y = ?</text>
+			</g>
 		</svg>
 		<div class="container-page relative py-20 sm:py-28">
 			<p data-hero class="mono-eyebrow text-mute">{dict.hero.eyebrow}</p>
