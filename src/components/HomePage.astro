@@ -86,11 +86,11 @@ const dict = getDictionary(locale);
 			<circle cx="45" cy="70" r="3"></circle>
 		</svg>
 		<div class="container-page relative py-20 sm:py-28">
-			<p class="mono-eyebrow text-mute">{dict.hero.eyebrow}</p>
-			<h1 class="mt-5 max-w-2xl text-4xl font-semibold tracking-tight text-ink text-balance sm:text-5xl sm:leading-[1.05]" style="letter-spacing: var(--tracking-display);">
+			<p data-hero class="mono-eyebrow text-mute">{dict.hero.eyebrow}</p>
+			<h1 data-hero class="mt-5 max-w-2xl text-4xl font-semibold tracking-tight text-ink text-balance sm:text-5xl sm:leading-[1.05]" style="letter-spacing: var(--tracking-display);">
 				{dict.hero.heading}
 			</h1>
-			<p class="mt-5 max-w-xl text-base leading-relaxed text-body sm:text-lg">
+			<p data-hero class="mt-5 max-w-xl text-base leading-relaxed text-body sm:text-lg">
 				{dict.hero.subheading}
 			</p>
 			<nav class="mt-8 flex flex-wrap gap-x-6 gap-y-2.5 text-sm">
