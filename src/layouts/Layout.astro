@@ -3,7 +3,6 @@ import "../styles/global.css";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { languages, locales, defaultLocale, type Locale } from "../i18n/languages";
 import { getDictionary } from "../i18n/utils";
-import OwlMark from "../components/OwlMark.astro";
 
 interface Props {
 	locale: Locale;
@@ -137,10 +136,10 @@ const currentYear = new Date().getFullYear();
 			<nav class="container-page flex h-16 items-center justify-between gap-2">
 				<a href={getRelativeLocaleUrl(locale, "")} class="interactive flex min-w-0 shrink items-center gap-2.5 text-[15px] font-semibold tracking-tight text-ink hover:opacity-80">
 					<span
-						class="flex size-7 shrink-0 items-center justify-center rounded-md bg-ink text-ink-contrast shadow-sm"
+						class="flex size-7 shrink-0 items-center justify-center rounded-md bg-ink text-[14px] font-semibold text-ink-contrast shadow-sm"
 						aria-hidden="true"
 					>
-						<OwlMark class="size-[18px]" />
+						∫
 					</span>
 					<span class="truncate">{dict.header.brand}</span>
 				</a>
