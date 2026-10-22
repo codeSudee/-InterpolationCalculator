@@ -49,10 +49,11 @@ const jsonLd = [
 <Layout locale="en" title={page.title} description={page.description} currentPath={page.slug} alternates={false} jsonLd={jsonLd}>
 	<section class="container-page pt-10 sm:pt-14">
 		<nav aria-label="Breadcrumb" class="text-sm text-mute">
-			<ol class="flex flex-wrap items-center gap-x-2">
-				<li><a href="/" class="interactive underline-offset-4 hover:text-ink hover:underline">Interpolation Calculator</a></li>
-				<li aria-hidden="true">/</li>
-				<li aria-current="page" class="text-body">{page.h1}</li>
+			<!-- One line that truncates rather than wraps, so the web-font swap cannot add a line and shift the page. -->
+			<ol class="flex flex-nowrap items-center gap-x-2">
+				<li class="shrink-0"><a href="/" class="interactive whitespace-nowrap underline-offset-4 hover:text-ink hover:underline">Interpolation Calculator</a></li>
+				<li aria-hidden="true" class="shrink-0">/</li>
+				<li aria-current="page" class="min-w-0 truncate text-body">{page.h1}</li>
 			</ol>
 		</nav>
 		<h1 class="mt-5 max-w-3xl text-3xl font-semibold tracking-tight text-ink text-balance sm:text-4xl" style="letter-spacing: var(--tracking-display);">
