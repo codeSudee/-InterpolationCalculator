@@ -17,6 +17,11 @@ export interface LandingPage {
 	/** Values loaded into the calculator on page load. Never persisted. */
 	preset: { mode: PresetMode; values: Record<string, string> };
 	presetNote: string;
+	/**
+	 * Min-height classes for the result panel, so the preset result does not push the page down
+	 * when it renders. Measured at 360-768px wide (steps wrap onto more lines on narrow screens).
+	 */
+	reserve: string;
 	sections: Array<{ heading: string; body: string[] }>;
 	faqs: Array<{ q: string; a: string }>;
 	related: string[];
@@ -40,6 +45,7 @@ export const landingPages: LandingPage[] = [
 			values: { "lin-x1": "20", "lin-y1": "998.21", "lin-x2": "30", "lin-y2": "995.65", "lin-x": "25" },
 		},
 		presetNote: "Preloaded: density of water at 25 °C, from table values at 20 °C and 30 °C.",
+		reserve: "min-h-[29.5rem] sm:min-h-[26rem]",
 		sections: [
 			{
 				heading: "Worked example: density of water at 25 °C",
@@ -93,6 +99,7 @@ export const landingPages: LandingPage[] = [
 			values: { "log-x1": "10", "log-y1": "2", "log-x2": "1000", "log-y2": "5", "log-x": "100" },
 		},
 		presetNote: "Preloaded: a sensor reading of 2.0 at 10 Hz and 5.0 at 1000 Hz, estimated at 100 Hz.",
+		reserve: "min-h-[31rem] sm:min-h-[26rem]",
 		sections: [
 			{
 				heading: "Worked example: a reading between two frequencies",
@@ -158,6 +165,7 @@ export const landingPages: LandingPage[] = [
 			},
 		},
 		presetNote: "Preloaded: corner values 10, 20, 30 and 40 on a unit square, estimated at x = 0.25, y = 0.5.",
+		reserve: "min-h-[31rem] sm:min-h-[26rem]",
 		sections: [
 			{
 				heading: "Worked example on a unit square",
@@ -211,6 +219,7 @@ export const landingPages: LandingPage[] = [
 			values: { "lin-x1": "100", "lin-y1": "101.42", "lin-x2": "110", "lin-y2": "143.38", "lin-x": "105" },
 		},
 		presetNote: "Preloaded: saturation pressure (kPa) at 105 °C from rows at 100 °C and 110 °C.",
+		reserve: "min-h-[31rem] sm:min-h-[26rem]",
 		sections: [
 			{
 				heading: "Single interpolation: saturated water",
@@ -265,6 +274,7 @@ export const landingPages: LandingPage[] = [
 			values: { "lin-x1": "2", "lin-y1": "14", "lin-x2": "6", "lin-y2": "22", "lin-x": "9" },
 		},
 		presetNote: "Preloaded: points (2, 14) and (6, 22), extended to x = 9.",
+		reserve: "min-h-[39rem] sm:min-h-[31rem]",
 		sections: [
 			{
 				heading: "How linear extrapolation works",
@@ -318,6 +328,7 @@ export const landingPages: LandingPage[] = [
 			values: { "lin-x1": "1", "lin-y1": "5", "lin-x2": "4", "lin-y2": "11", "lin-x": "3" },
 		},
 		presetNote: "Preloaded: points (1, 5) and (4, 11), evaluated at x = 3.",
+		reserve: "min-h-[28rem] sm:min-h-[26rem]",
 		sections: [
 			{
 				heading: "Deriving the formula",
@@ -373,6 +384,7 @@ export const landingPages: LandingPage[] = [
 			values: { "lin-x1": "20", "lin-y1": "0.5", "lin-x2": "70", "lin-y2": "2.5", "lin-x": "45" },
 		},
 		presetNote: "Preloaded: temperatures 20 °C and 70 °C entered as x, with sensor voltages 0.5 V and 2.5 V entered as y.",
+		reserve: "min-h-[29.5rem] sm:min-h-[26rem]",
 		sections: [
 			{
 				heading: "Running the calculator in reverse",
