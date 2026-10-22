@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import InterpolationCalculator from "./InterpolationCalculator.astro";
 import { getDictionary, localizedPath } from "../i18n/utils";
 import type { Locale } from "../i18n/languages";
+import { landingPages } from "../data/landing-pages";
 
 interface Props {
 	locale: Locale;
@@ -10,9 +11,62 @@ interface Props {
 
 const { locale } = Astro.props;
 const dict = getDictionary(locale);
+
+const site = Astro.site!;
+const pageUrl = new URL(Astro.url.pathname, site).toString();
+const orgId = new URL("/#organization", site).toString();
+const jsonLd: object[] = [
+	{
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		name: "Interpolation Calculator",
+		url: pageUrl,
+		applicationCategory: "UtilitiesApplication",
+		operatingSystem: "Any (runs in browser)",
+		description: dict.meta.description,
+		inLanguage: locale,
+		offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+		featureList: [
+			"Linear interpolation calculator",
+			"Logarithmic interpolation calculator",
+			"Double (bilinear) interpolation calculator",
+			"Step-by-step results",
+		],
+	},
+	{
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		mainEntity: dict.faq.items.map((item) => ({
+			"@type": "Question",
+			name: item.q,
+			acceptedAnswer: { "@type": "Answer", text: item.a },
+		})),
+	},
+];
+if (locale === "en") {
+	jsonLd.push(
+		{
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"@id": new URL("/#website", site).toString(),
+			name: "Interpolation Calculator",
+			url: new URL("/", site).toString(),
+			inLanguage: "en",
+			publisher: { "@id": orgId },
+		},
+		{
+			"@context": "https://schema.org",
+			"@type": "Organization",
+			"@id": orgId,
+			name: "Interpolation Calculator Online",
+			url: new URL("/", site).toString(),
+			logo: new URL("/web-app-manifest-512x512.png", site).toString(),
+		},
+	);
+}
 ---
 
-<Layout locale={locale}>
+<Layout locale={locale} jsonLd={jsonLd}>
 	<!-- Hero -->
 	<section class="relative isolate overflow-hidden border-b border-hairline">
 		<div
@@ -178,6 +232,20 @@ const dict = getDictionary(locale);
 			</article>
 		</div>
 	</section>
+
+	{locale === "en" && (
+		<section data-reveal class="container-page py-12 sm:py-16" aria-labelledby="specific-heading">
+			<h2 id="specific-heading" class="text-2xl font-semibold tracking-tight text-ink sm:text-[1.75rem]" style="letter-spacing: var(--tracking-heading);">Calculators and guides for specific cases</h2>
+			<ul class="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2">
+				{landingPages.map((page) => (
+					<li>
+						<a href={`/${page.slug}/`} class="interactive text-sm font-medium text-link underline-offset-4 hover:text-link-deep hover:underline">{page.nav}</a>
+						<p class="mt-1 text-sm leading-relaxed text-body">{page.blurb}</p>
+					</li>
+				))}
+			</ul>
+		</section>
+	)}
 
 	<!-- SEO content -->
 	<section data-reveal class="container-page py-12 sm:py-16">

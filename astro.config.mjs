@@ -2,6 +2,10 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import { landingPages } from './src/data/landing-pages.ts';
+
+// Real last-change dates, known only for the landing pages (see src/data/landing-pages.ts).
+const lastmodByUrl = new Map(landingPages.map((p) => [`https://interpcalc.com/${p.slug}/`, p.updated]));
 
 // https://astro.build/config
 export default defineConfig({
@@ -32,6 +36,15 @@ export default defineConfig({
 				},
 			},
 			filter: (page) => !page.includes('/404') && !page.includes('/500'),
+			serialize(item) {
+				const lastmod = lastmodByUrl.get(item.url);
+				if (lastmod) {
+					item.lastmod = lastmod;
+					// English-only pages have no translated counterparts to point hreflang at.
+					item.links = undefined;
+				}
+				return item;
+			},
 		}),
 	],
 });

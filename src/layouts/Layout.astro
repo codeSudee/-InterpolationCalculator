@@ -3,15 +3,22 @@ import "../styles/global.css";
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { languages, locales, defaultLocale, type Locale } from "../i18n/languages";
 import { getDictionary } from "../i18n/utils";
+import { landingPages } from "../data/landing-pages";
 
 interface Props {
 	locale: Locale;
 	title?: string;
 	description?: string;
 	currentPath?: string;
+	/** Adds a robots noindex tag and drops the canonical and hreflang links (error pages). */
+	noindex?: boolean;
+	/** Set false for pages that only exist in one language, so no hreflang alternates are emitted. */
+	alternates?: boolean;
+	/** Structured data objects to emit as JSON-LD. Only pass what is visible on the page. */
+	jsonLd?: object[];
 }
 
-const { locale, title, description, currentPath = "/" } = Astro.props;
+const { locale, title, description, currentPath = "/", noindex = false, alternates = true, jsonLd = [] } = Astro.props;
 const dict = getDictionary(locale);
 
 const pageTitle = title ?? dict.meta.title;
@@ -46,12 +53,12 @@ const currentYear = new Date().getFullYear();
 
 		<title>{pageTitle}</title>
 		<meta name="description" content={pageDescription} />
-		<link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+		{noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />}
 
-		{locales.map((loc) => (
+		{!noindex && alternates && locales.map((loc) => (
 			<link rel="alternate" hreflang={loc} href={new URL(getRelativeLocaleUrl(loc, currentPath === "/" ? "" : currentPath), Astro.site)} />
 		))}
-		<link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl(defaultLocale, ""), Astro.site)} />
+		{!noindex && alternates && <link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl(defaultLocale, ""), Astro.site)} />}
 
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Interpolation Calculator Online" />
@@ -68,41 +75,9 @@ const currentYear = new Date().getFullYear();
 		<meta name="twitter:description" content={pageDescription} />
 		<meta name="twitter:image" content={new URL("/web-app-manifest-512x512.png", Astro.site)} />
 
-		<script type="application/ld+json" is:inline set:html={JSON.stringify({
-			"@context": "https://schema.org",
-			"@type": "WebApplication",
-			name: "Interpolation Calculator",
-			url: new URL(Astro.url.pathname, Astro.site).toString(),
-			applicationCategory: "UtilitiesApplication",
-			operatingSystem: "Any (runs in browser)",
-			description: pageDescription,
-			offers: {
-				"@type": "Offer",
-				price: "0",
-				priceCurrency: "USD",
-			},
-			featureList: [
-				"Linear interpolation calculator",
-				"Logarithmic interpolation calculator",
-				"Double (bilinear) interpolation calculator",
-				"Step-by-step results",
-			],
-		})} />
-
-		{dict.faq?.items?.length ? (
-			<script type="application/ld+json" is:inline set:html={JSON.stringify({
-				"@context": "https://schema.org",
-				"@type": "FAQPage",
-				mainEntity: dict.faq.items.map((item) => ({
-					"@type": "Question",
-					name: item.q,
-					acceptedAnswer: {
-						"@type": "Answer",
-						text: item.a,
-					},
-				})),
-			})} />
-		) : null}
+		{jsonLd.map((data) => (
+			<script type="application/ld+json" is:inline set:html={JSON.stringify(data).replace(/</g, "\\u003c")} />
+		))}
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -226,6 +201,15 @@ const currentYear = new Date().getFullYear();
 
 		<footer class="border-t border-hairline bg-canvas">
 			<div class="container-page flex flex-col gap-7 py-12 text-sm text-body">
+				{locale === "en" && (
+					<nav aria-label="Calculators" class="flex flex-wrap gap-x-7 gap-y-2.5">
+						{landingPages.map((page) => (
+							<a href={`/${page.slug}/`} class="interactive text-body hover:text-ink">
+								{page.nav}
+							</a>
+						))}
+					</nav>
+				)}
 				<nav class="flex flex-wrap gap-x-7 gap-y-2.5">
 					<a href={getRelativeLocaleUrl(locale, "about")} class="interactive text-body hover:text-ink">
 						{dict.footer.navAbout}

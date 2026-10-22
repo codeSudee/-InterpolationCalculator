@@ -1,0 +1,22 @@
+# Interpolation Calculator
+
+> A free, browser-based interpolation calculator. It estimates values between known data points using linear, logarithmic or double (bilinear) interpolation and shows every step of the working. Calculations run client-side; inputs are never sent to a server. Maintained as an independent project; contact code.sudeepto@gmail.com.
+
+## Calculators and guides
+
+- [Interpolation Calculator](https://interpcalc.com/): all three methods in one tool, with worked examples and FAQ
+- [Linear interpolation calculator](https://interpcalc.com/linear-interpolation-calculator/): two known points, one target x
+- [Logarithmic interpolation calculator](https://interpcalc.com/logarithmic-interpolation-calculator/): for data that is linear in ln(x)
+- [Bilinear (double) interpolation calculator](https://interpcalc.com/bilinear-interpolation-calculator/): four corner values of a 2D table
+- [Steam table interpolation](https://interpcalc.com/steam-table-interpolation-calculator/): single and double interpolation for steam tables
+- [Extrapolation calculator](https://interpcalc.com/extrapolation-calculator/): extending a line beyond known points
+- [Interpolation formula](https://interpcalc.com/interpolation-formula/): derivation and weighted-average form
+- [Inverse interpolation calculator](https://interpcalc.com/inverse-interpolation-calculator/): finding x for a given y
+
+## About the site
+
+- [About](https://interpcalc.com/about/)
+- [Privacy Policy](https://interpcalc.com/privacy/)
+- [Contact](https://interpcalc.com/contact/)
+
+The home page is also available in German, Spanish, French, Italian, Japanese, Korean and Portuguese under /de/, /es/, /fr/, /it/, /ja/, /ko/ and /pt/.

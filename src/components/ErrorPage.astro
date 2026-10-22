@@ -20,7 +20,7 @@ const { locale, content } = Astro.props;
 const dict = getDictionary(locale);
 ---
 
-<Layout locale={locale} title={content.metaTitle} description={content.metaDescription}>
+<Layout locale={locale} title={content.metaTitle} description={content.metaDescription} noindex>
 	<section class="container-page py-20 sm:py-28">
 		<div class="mx-auto max-w-xl text-center">
 			<p class="mono-eyebrow text-mute" aria-hidden="true">{content.code}</p>
