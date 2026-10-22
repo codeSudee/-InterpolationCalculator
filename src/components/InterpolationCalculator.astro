@@ -11,9 +11,11 @@ interface Props {
 	preset?: { mode: "linear" | "log" | "bilinear"; values: Record<string, string> };
 	/** Min-height classes for the result panel when a preset renders a result on load. */
 	resultClass?: string;
+	/** When set, shows a button that empties the fields of the active mode. Used on preset pages. */
+	clearLabel?: string;
 }
 
-const { dict, preset, resultClass } = Astro.props;
+const { dict, preset, resultClass, clearLabel } = Astro.props;
 const c = dict.calculator;
 ---
 
@@ -103,6 +105,16 @@ const c = dict.calculator;
 						<Field id="bi-y" label={c.labelYTarget} placeholder="15" highlight />
 					</div>
 				</div>
+
+				{clearLabel && (
+					<button
+						type="button"
+						id="calc-clear"
+						class="interactive mt-5 rounded-md border border-hairline px-3.5 py-2 text-sm font-medium text-body hover:bg-hairline-soft hover:text-ink active:scale-95"
+					>
+						{clearLabel}
+					</button>
+				)}
 			</div>
 
 			<!-- Results -->
@@ -356,6 +368,14 @@ const c = dict.calculator;
 
 	document.querySelectorAll<HTMLInputElement>(".calc-panel input").forEach((input) => {
 		input.addEventListener("input", compute);
+	});
+
+	// Preset pages: empty the active mode's fields so visitors can enter their own numbers.
+	document.getElementById("calc-clear")?.addEventListener("click", () => {
+		const inputs = panels[currentMode].querySelectorAll<HTMLInputElement>("input");
+		inputs.forEach((input) => (input.value = ""));
+		compute();
+		inputs[0]?.focus();
 	});
 
 	// Landing pages can preload an example. Values are set once here and are not persisted.
