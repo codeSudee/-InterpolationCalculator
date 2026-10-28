@@ -2,9 +2,9 @@ import type { Dictionary } from "../dictionary";
 
 export const it: Dictionary = {
 	meta: {
-		title: "Calcolatore di interpolazione – lineare, logaritmica e bilineare, passo dopo passo",
+		title: "Interpolazione lineare online: calcolo, formula e bilineare",
 		description:
-			"Stima valori compresi tra punti dati noti con l'interpolazione lineare, logaritmica o doppia (bilineare). Ogni risultato mostra l'intero procedimento, con esempi svolti e indicazioni sulla scelta del metodo.",
+			"Calcolo dell'interpolazione lineare online, gratis: inserisci due punti e ottieni il risultato con formula e passaggi. Anche logaritmica e bilineare (doppia).",
 	},
 
 	header: {

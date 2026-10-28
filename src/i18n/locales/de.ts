@@ -2,9 +2,9 @@ import type { Dictionary } from "../dictionary";
 
 export const de: Dictionary = {
 	meta: {
-		title: "Interpolationsrechner – Linear, Logarithmisch & Bilinear, Schritt für Schritt",
+		title: "Interpolationsrechner online – linear, logarithmisch, bilinear",
 		description:
-			"Schätze Werte zwischen bekannten Datenpunkten mit linearer, logarithmischer oder doppelter (bilinearer) Interpolation. Jedes Ergebnis zeigt den vollständigen Rechenweg, mit durchgerechneten Beispielen und Hilfe bei der Methodenwahl.",
+			"Kostenloser Interpolationsrechner: lineare, logarithmische oder bilineare (doppelte) Interpolation mit Formel und vollständigem Rechenweg. Ohne Anmeldung.",
 	},
 
 	header: {

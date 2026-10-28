@@ -2,9 +2,9 @@ import type { Dictionary } from "../dictionary";
 
 export const es: Dictionary = {
 	meta: {
-		title: "Calculadora de interpolación – Lineal, logarítmica y bilineal, paso a paso",
+		title: "Interpolación online – Calculadora lineal, logarítmica y doble",
 		description:
-			"Estima valores entre puntos de datos conocidos mediante interpolación lineal, logarítmica o doble (bilineal). Cada resultado muestra todo el desarrollo, con ejemplos resueltos y orientación para elegir el método.",
+			"Calculadora de interpolación online y gratis: lineal, logarítmica o doble (bilineal). Muestra la fórmula y cada paso del cálculo. Sin registro.",
 	},
 
 	header: {

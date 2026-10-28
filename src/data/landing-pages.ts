@@ -88,9 +88,9 @@ export const landingPages: LandingPage[] = [
 		slug: "logarithmic-interpolation-calculator",
 		nav: "Logarithmic interpolation",
 		blurb: "For data that is straight on a log x-axis, such as frequency or concentration.",
-		title: "Logarithmic Interpolation Calculator – Log-Scale x Values",
+		title: "Logarithmic (Log-Linear) Interpolation Calculator & Formula",
 		description:
-			"Free logarithmic interpolation calculator for data that is linear in ln(x). Includes a frequency-response worked example, the formula, and when to pick log over linear.",
+			"Free logarithmic (log-linear) interpolation calculator for data linear in ln(x), with the formula, a worked frequency example and when to pick log over linear.",
 		h1: "Logarithmic Interpolation Calculator",
 		intro:
 			"When x spans several orders of magnitude and y changes by a steady amount for each multiplication of x, a straight line on ordinary axes gives the wrong answer. This calculator interpolates against ln(x) instead. It is preloaded with a frequency-response example.",

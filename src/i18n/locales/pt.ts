@@ -2,9 +2,9 @@ import type { Dictionary } from "../dictionary";
 
 export const pt: Dictionary = {
 	meta: {
-		title: "Calculadora de interpolação – linear, logarítmica e bilinear, passo a passo",
+		title: "Interpolação linear: fórmula e calculadora online passo a passo",
 		description:
-			"Estime valores entre pontos de dados conhecidos com interpolação linear, logarítmica ou dupla (bilinear). Cada resultado mostra todo o desenvolvimento, com exemplos resolvidos e orientação na escolha do método.",
+			"Fórmula da interpolação linear y = y₁ + (x − x₁)(y₂ − y₁)/(x₂ − x₁) e calculadora online grátis, com cada passo mostrado. Também logarítmica e bilinear.",
 	},
 
 	header: {
