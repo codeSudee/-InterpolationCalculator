@@ -12,6 +12,9 @@
 - [Extrapolation calculator](https://interpcalc.com/extrapolation-calculator/): extending a line beyond known points
 - [Interpolation formula](https://interpcalc.com/interpolation-formula/): derivation and weighted-average form
 - [Inverse interpolation calculator](https://interpcalc.com/inverse-interpolation-calculator/): finding x for a given y
+- [Interpolation vs extrapolation](https://interpcalc.com/interpolation-vs-extrapolation/): the differences, with a worked example of the error
+- [How to interpolate](https://interpcalc.com/how-to-interpolate/): the method as four steps, with worked examples
+- [Interpolation in Excel](https://interpcalc.com/interpolation-in-excel/): formulas for two points, whole tables, logarithmic and double interpolation
 
 ## About the site
 
