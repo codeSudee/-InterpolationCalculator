@@ -18,24 +18,24 @@
 	--breakpoint-xs: 400px;
 
 	/* Fonts */
-	--font-sans: "Geist", "Inter", Arial, sans-serif;
+	--font-sans: "Inter", "Geist", Arial, sans-serif;
 	--font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
 	/* Ink & surface ladder */
-	--color-ink: #171717;
-	--color-body: #4d4d4d;
+	--color-ink: #1a1a1a;
+	--color-body: #4a4a4a;
 	--color-mute: #8f8f8f;
 	--color-faint: #a1a1a1;
-	--color-hairline: #e7e7e7;
-	--color-hairline-soft: #f2f2f2;
-	--color-canvas: #fafafa;
+	--color-hairline: #e6e6e3;
+	--color-hairline-soft: #f3f3f1;
+	--color-canvas: #ffffff;
 	--color-canvas-elevated: #ffffff;
 	--color-ink-contrast: #ffffff;
 
 	/* Accent */
-	--color-link: #0070f3;
-	--color-link-deep: #0761d1;
-	--color-link-soft: #d3e5ff;
+	--color-link: #1f7a52;
+	--color-link-deep: #176042;
+	--color-link-soft: #d4f3e3;
 
 	/* Semantic */
 	--color-error: #ee0000;
@@ -105,9 +105,9 @@
 		--color-ink-contrast: #0a0a0b;
 
 		/* Accent, adjusted for contrast on dark surfaces */
-		--color-link: #5aa5ff;
-		--color-link-deep: #94c6ff;
-		--color-link-soft: #142a4d;
+		--color-link: #3ecf8e;
+		--color-link-deep: #7fe0b4;
+		--color-link-soft: #123824;
 
 		/* Semantic, adjusted for contrast on dark surfaces */
 		--color-error: #ff6161;
